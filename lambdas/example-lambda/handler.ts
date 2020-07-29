@@ -6,7 +6,7 @@ import * as joi from "@hapi/joi";
 import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
 import { winstonLogger } from "../../shared/logger";
-import { exampleSchemaValidation } from "./schemaValidation";
+import { exampleSchemaValidation } from "./schema-validation";
 
 export async function handle(event: any, _: Context): Promise<any> {
   try {
@@ -18,7 +18,6 @@ export async function handle(event: any, _: Context): Promise<any> {
     return awsLambdaResponse(200, {
       success: true,
     });
-
   } catch (e) {
     console.error(e);
 

@@ -29,7 +29,7 @@ pipelines:
       - step: *compile
       - step:
           <<: *deploy
-          deployment: dev
+          deployment: test
           name: Deploy to DEV
 
   branches:
@@ -42,4 +42,4 @@ pipelines:
       - step: *compile
       - step:
           <<: *deploy
-          deployment: dev
+          deployment: test
