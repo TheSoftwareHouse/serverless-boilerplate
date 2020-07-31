@@ -13,12 +13,13 @@ Welcome to serveless boilerplate
 
 The best choice for deployment is the bitbucket pipeline.
 
-Deployment pipeline consist of two steps:
+Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
+
 1. compile (automated start)
-    1. build
-    1. run lamda offline 
-    1. run tests
-1. deploy (user action required)
+    - build
+    - run lamda offline 
+    - run tests
+2. deploy (user action required)
 
 #### Other good source of information
 
