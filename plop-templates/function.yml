@@ -1,9 +1,6 @@
-{{name}}:
-    handler: lambdas/{{name}}/handler.handle
-    environment:
-      APP_NAME: ${env:APP_NAME} 
-    events:
-      - http:
-          path: /
-          method: GET
+  {{name}}:
+      handler: lambdas/{{name}}/handler.handle
+      environment:
+        APP_NAME: ${env:APP_NAME} 
+      events:
   $1

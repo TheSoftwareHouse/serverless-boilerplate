@@ -1,24 +1,20 @@
-module.exports = function (plop) {
-    // create your generators here
-    plop.setGenerator('Lambda', {
+import { NodePlopAPI } from 'plop';
+
+module.exports = function (plop: NodePlopAPI) {
+    plop.setGenerator('lambda', {
         description: 'Create lambda',
         prompts: [
             {
                 type: 'input',
                 name: 'name',
-                message: 'Lambda name'
+                message: 'Name'
             }
-        ], // array of inquirer prompts
+        ],
         actions: [
             {
                 type: 'add',
                 path: 'lambdas/{{name}}/handler.ts',
                 templateFile: 'plop-templates/handler.ts'
-            },
-            {
-                type: 'add',
-                path: 'lambdas/{{name}}/test/{{kebabCase name}}.spec.ts',
-                templateFile: 'plop-templates/handler.spec.ts'
             },
             {
                 type: 'add',
@@ -28,19 +24,9 @@ module.exports = function (plop) {
             {
                 type: 'modify',
                 path: 'serverless.yml',
-                pattern: /(\# PLOP_ADD_LAMBDA)/,
+                pattern: / +(\# PLOP_ADD_LAMBDA)/,
                 templateFile: 'plop-templates/function.yml'
             }
         ]
     });
 };
-
-//   `{{name}}:
-//     handler: lambdas/{{name}}/handler.handle
-//     environment:
-//       APP_NAME: \${env:APP_NAME} 
-//     events:
-//       - http:
-//           path: /
-//           method: GET
-//   $1`,
