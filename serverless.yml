@@ -26,3 +26,4 @@ functions:
       - http:
           path: /
           method: GET
+  # PLOP_ADD_LAMBDA
