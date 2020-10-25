@@ -4,21 +4,27 @@ plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-plugin-log-retention
 
 package:
   individually: true
 
 custom:
+  logRetentionInDays: 30
   webpack:
     webpackConfig: "webpack.config.js"
     packager: "npm"
-    includeModules: true
+    includeModules:
+      forceExclude:
+        - aws-sdk
 
 provider:
   name: aws
   runtime: nodejs12.x
   region: ${env:AWS_S3_REGION, 'eu-west-1'}
   stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
 
 functions:
   example-lambda:
