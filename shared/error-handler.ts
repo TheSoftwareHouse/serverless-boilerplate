@@ -1,4 +1,4 @@
-import { ValidationError } from "@hapi/joi";
+import { ValidationError } from "joi";
 import { awsLambdaResponse } from "./aws";
 import { AppError } from "./errors/app.error";
 import { HttpError } from "./errors/http.error";

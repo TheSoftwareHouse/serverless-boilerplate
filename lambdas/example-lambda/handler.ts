@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable no-console */
 import { Context } from "aws-lambda";
-import * as joi from "@hapi/joi";
+import joi from "joi";
 
 import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
