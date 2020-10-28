@@ -45,4 +45,4 @@ Here you can check example tests: [handler.spec.ts](lambdas/example-lambda/tests
 
 #### What do we use for validating schemas?
 
-We use  [joi](https://hapi.dev/module/joi/) for schema validation.
+We use  [joi](https://joi.dev/) for schema validation.
