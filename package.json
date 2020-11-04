@@ -26,7 +26,6 @@
     "aws-lambda": "1.0.6",
     "babel-loader": "8.1.0",
     "copy-webpack-plugin": "^6.3.0",
-    "dotenv-safe": "^8.2.0",
     "eslint": "7.3.1",
     "eslint-config-airbnb": "18.2.0",
     "eslint-config-airbnb-base": "14.2.0",
@@ -56,6 +55,7 @@
   },
   "dependencies": {
     "aws-sdk": "2.691.0",
+    "dotenv-safe": "^8.2.0",
     "joi": "^17.3.0"
   }
 }
