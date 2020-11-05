@@ -1,0 +1,54 @@
+{
+  "extends": ["airbnb-typescript/base", "plugin:prettier/recommended"],
+  "env": {
+    "mocha": true
+  },
+  "plugins": ["prettier", "unicorn", "chai-friendly"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": ["node_modules/", "tests/"],
+  "rules": {
+    "no-console": "error",
+    "import/prefer-default-export": "off",
+    "no-empty-pattern": "off",
+    "import/no-cycle": "off",
+    "import/no-duplicates": "off",
+    "import/order": "off",
+    "no-empty-function": "off",
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "chai-friendly/no-unused-expressions": 2,
+    "@typescript-eslint/quotes": ["error", "double"],
+    "no-empty-interface": "off",
+    "ordered-imports": "off",
+    "import/no-extraneous-dependencies": "off",
+    "object-literal-sort-keys": "off",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "kebabCase"
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "latest"
+    }
+  }
+}

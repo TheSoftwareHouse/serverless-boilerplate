@@ -1,0 +1,45 @@
+image: node:alpine
+definitions:
+  steps:
+    - step: &compile
+        name: Compile
+        caches:
+          - node
+        script:
+          - npm install
+          - npm run lint
+          - sh ./ci/start-offline.sh
+          - npm run tests
+          - sh ./ci/stop-offline.sh
+    - step: &deploy
+        name: Deploy
+        trigger: manual
+        caches:
+          - node
+        script:
+          - npm install
+          - ./node_modules/.bin/serverless config credentials --stage ${STAGE} --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
+          - ./node_modules/.bin/serverless deploy --stage ${STAGE}
+
+pipelines:
+  default:
+    - step: *compile
+  custom:
+    deploy-to-dev:
+      - step: *compile
+      - step:
+          <<: *deploy
+          deployment: test
+          name: Deploy to DEV
+
+  branches:
+    master:
+      - step: *compile
+      - step:
+          <<: *deploy
+          deployment: production
+    develop:
+      - step: *compile
+      - step:
+          <<: *deploy
+          deployment: test
