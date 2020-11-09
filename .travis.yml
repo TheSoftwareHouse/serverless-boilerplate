@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - 12
+
+before_script:
+  - npm install
+
+jobs:
+  include:
+    - stage: compile
+      name: "Compile"
+      script:
+        - npm run lint
+        - sh ./ci/start-offline.sh
+        - npm run tests
+        - sh ./ci/stop-offline.sh
+
+
