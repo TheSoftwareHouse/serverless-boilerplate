@@ -1,7 +1,21 @@
-# README
+[![Build Status](https://travis-ci.com/TheSoftwareHouse/serverless-boilerplate.svg?branch=master)](https://travis-ci.com/github/TheSoftwareHouse/serverless-boilerplate)
 
-Welcome to serveless boilerplate
+## Serverless Boilerplate
 
+Boilerplate code for rapidly creating ready-to-deploy Serverless Framework services.
+
+## Quick Start
+
+- **Install**
+```
+npm install
+```
+  rename .env.dist to .env, fill all information
+
+- **Create lambda**
+```
+npm run plop
+```
 #### Development Local
 
 - npm install
@@ -17,7 +31,7 @@ Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
 
 1. compile (automated start)
     - build
-    - run lamda offline 
+    - run lamda offline
     - run tests
 2. deploy (user action required)
 
@@ -46,3 +60,9 @@ Here you can check example tests: [handler.spec.ts](lambdas/example-lambda/tests
 #### What do we use for validating schemas?
 
 We use  [joi](https://joi.dev/) for schema validation.
+
+## License
+
+[![license](https://img.shields.io/badge/license-MIT-4dc71f.svg)](https://raw.githubusercontent.com/TheSoftwareHouse/serverless-boilerplate/main/LICENSE)
+
+This project is licensed under the terms of the [MIT license](/LICENSE).
