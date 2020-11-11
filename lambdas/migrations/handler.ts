@@ -4,7 +4,6 @@ import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
 import { winstonLogger } from "../../shared/logger";
 import { loadEnvs } from "../../shared/config/env";
-import { MemberModel } from "../../shared/models/member.model";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
 
 loadEnvs();
@@ -22,7 +21,6 @@ export async function handle(__: any, _: Context): Promise<any> {
 
     return awsLambdaResponse(200, {
       success: true,
-      data: await connection.getRepository(MemberModel).find({}),
     });
   } catch (e) {
     console.error(e);

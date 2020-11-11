@@ -7,6 +7,9 @@ import { winstonLogger } from "../../shared/logger";
 import { exampleSchemaValidation } from "./schema-validation";
 import { loadEnvs } from "../../shared/config/env";
 import { createConfig } from "../../shared/config/config";
+import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { ExampleModel } from "../../shared/models/example.model";
+import { v4 } from "uuid";
 
 loadEnvs();
 const config = createConfig(process.env);
@@ -18,8 +21,21 @@ export async function handle(event: any, _: Context): Promise<any> {
 
     winstonLogger.info(`Hello from ${config.appName}. Example param is: ${exampleParam}`);
 
+    const connectionManager = new ConnectionManager();
+    const connection = await connectionManager.getConnection();
+
+    await connection.getRepository(ExampleModel).save(
+      ExampleModel.create({
+        id: v4(),
+        email: "some@tmp.pl",
+        firstName: "Test",
+        lastName: "User",
+      }),
+    );
+
     return awsLambdaResponse(200, {
       success: true,
+      data: await connection.getRepository(ExampleModel).find({}),
     });
   } catch (e) {
     console.error(e);

@@ -1,20 +1,19 @@
 import { PrimaryColumn, Column, OneToMany, Entity } from "typeorm";
 import { v4 } from "uuid";
 
-interface MemberModelProps {
+interface ExampleModelProps {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  slackId?: string;
 }
 
 @Entity({
-  name: "member",
+  name: "example-model",
 })
-export class MemberModel {
-  public static create(data: Partial<MemberModelProps>): MemberModel {
-    const entity = new MemberModel();
+export class ExampleModel {
+  public static create(data: Partial<ExampleModelProps>): ExampleModel {
+    const entity = new ExampleModel();
     Object.assign(entity, data);
     if (!entity.id) entity.id = v4();
     return entity;

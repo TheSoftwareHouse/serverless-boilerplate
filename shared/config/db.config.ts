@@ -1,3 +1,5 @@
+import { exampleMigration1605111464989 } from "../../migrations/1605111464989-example-migration";
+import { ExampleModel } from "../models/example.model";
 import { loadEnvs } from "./env";
 
 // MODELS_IMPORT
@@ -9,9 +11,11 @@ const createDbConfigFromEnvs = (env: any) => ({
   logging: false,
   synchronize: false,
   entities: [
+    ExampleModel,
     // MODELS_SETUP
   ],
   migrations: [
+    exampleMigration1605111464989,
     // PUT MIGRATIONS HERE
   ],
   cli: {
