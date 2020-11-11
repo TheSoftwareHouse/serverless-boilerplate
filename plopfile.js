@@ -26,20 +26,21 @@ const updateTypeORMModels = [
   {
     type: "modify",
     path: databaseConfigLocation,
-    pattern: /(\/\/ MODELS_IMPORTS)/,
+    pattern: /(\/\/ MODELS_IMPORT)/,
     template: 'import { {{pascalCase name}}Model } from "../models/{{kebabCase name}}.model";\n$1',
   },
   {
     type: "modify",
     path: databaseConfigLocation,
     pattern: /(\/\/ MODELS_SETUP)/,
-    template: "{{pascalCase name}}Model)),\n    $1",
+    template: "{{pascalCase name}}Model,\n    $1",
   },
 ];
 
 module.exports = function (plop) {
   plop.setGenerator("model", {
-    prompts: [moduleListPrompt, textPrompt("model")],
+    description: "Create model",
+    prompts: [textPrompt("model")],
     actions: [createModel, ...updateTypeORMModels],
   });
   plop.setGenerator("lambda", {
