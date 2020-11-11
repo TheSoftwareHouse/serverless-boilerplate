@@ -8,6 +8,10 @@
     "format": "./node_modules/.bin/prettier --write ./shared/**/*.ts ./lambdas/**/*.ts",
     "lint": "./node_modules/.bin/eslint -c eslint.json --ext .ts ./lambdas/",
     "lint-fix": "./node_modules/.bin/eslint -c eslint.json --ext .ts --fix ./lambdas/",
+    "generate-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:generate -f ./shared/config/db.config -n",
+    "run-migrations": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:run -f ./shared/config/db.config",
+    "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db.config",
+    "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db.config -n",
     "plop": "plop"
   },
   "author": "TSH",
@@ -21,6 +25,7 @@
     "@types/mocha": "7.0.2",
     "@types/node": "^12.12.47",
     "@types/supertest": "2.0.10",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "3.5.0",
     "@typescript-eslint/parser": "3.5.0",
     "aws-lambda": "1.0.6",
@@ -51,11 +56,15 @@
     "ts-node": "8.10.2",
     "tslint-eslint-rules": "5.4.0",
     "typescript": "3.9.6",
-    "webpack": "4.43.0"
+    "webpack": "4.43.0",
+    "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "dependencies": {
     "aws-sdk": "2.691.0",
     "dotenv-safe": "^8.2.0",
-    "joi": "^17.3.0"
+    "joi": "^17.3.0",
+    "pg": "^8.5.0",
+    "typeorm": "^0.2.29",
+    "uuid": "^3.3.2"
   }
 }

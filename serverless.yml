@@ -1,4 +1,4 @@
-service: ${env:SERVICE_NAME, 'anonymous-lambda'}
+service: ${env:APP_NAME, 'example-app'}
 
 plugins:
   - serverless-webpack
@@ -25,8 +25,15 @@ provider:
   stage: ${opt:stage, 'dev'}
   memorySize: 256
   timeout: 30
+  environment:
+    APP_NAME: ${env:APP_NAME, 'tsh-challenge-app'}
+    POSTGRES_URL: ${env:POSTGRES_URL}
+    AWS_S3_REGION: ${env:AWS_S3_REGION, 'eu-west-1'}
 
 functions:
+  migrations:
+    handler: lambdas/migrations/handler.handle
+
   example-lambda:
     handler: lambdas/example-lambda/handler.handle
     environment:

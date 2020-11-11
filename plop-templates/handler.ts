@@ -1,19 +1,16 @@
-
-/* eslint-disable @typescript-eslint/dot-notation */
-/* eslint-disable no-console */
 import { Context } from "aws-lambda";
 
 import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
 
 export async function handle(event: any, _: Context): Promise<any> {
-    try {
-        return awsLambdaResponse(200, {
-            success: true,
-        });
-    } catch (e) {
-        console.error(e);
+  try {
+    return awsLambdaResponse(200, {
+      success: true,
+    });
+  } catch (e) {
+    console.error(e);
 
-        return handleError(e);
-    }
+    return handleError(e);
+  }
 }
