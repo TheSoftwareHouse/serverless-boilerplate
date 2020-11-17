@@ -3,7 +3,10 @@ node_js:
   - 12
 
 before_script:
+  - cp .env.dist .env
+  - docker-compose up -d postgres
   - npm install
+  - npm run run-migrations
 
 jobs:
   include:
