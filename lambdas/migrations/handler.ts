@@ -23,6 +23,7 @@ export async function handle(__: any, _: Context): Promise<any> {
       success: true,
     });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
 
     return handleError(e);
