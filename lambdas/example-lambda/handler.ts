@@ -38,6 +38,7 @@ export async function handle(event: any, _: Context): Promise<any> {
       data: await connection.getRepository(ExampleModel).find({}),
     });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
 
     return handleError(e);
