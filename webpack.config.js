@@ -1,9 +1,30 @@
 const path = require("path");
 const slsw = require("serverless-webpack");
 const CopyPlugin = require("copy-webpack-plugin");
+const FilterWarningsPlugin = require("webpack-filter-warnings-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-  plugins: [new CopyPlugin({ patterns: [{ from: ".env.dist" }] })],
+  plugins: [
+    new CopyPlugin({ patterns: [{ from: ".env.dist" }] }),
+    new webpack.IgnorePlugin(/^pg-native$/),
+    new FilterWarningsPlugin({
+      exclude: [
+        /mongodb/,
+        /mssql/,
+        /mysql/,
+        /mysql2/,
+        /oracledb/,
+        /pg-native/,
+        /pg-query-stream/,
+        /react-native-sqlite-storage/,
+        /redis/,
+        /sqlite3/,
+        /sql.js/,
+        /typeorm-aurora-data-api-driver/,
+      ],
+    }),
+  ],
   entry: slsw.lib.entries,
   mode: "none",
   target: "node",
