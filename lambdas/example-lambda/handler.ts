@@ -1,6 +1,5 @@
 import { Context } from "aws-lambda";
 import joi from "joi";
-
 import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
 import { winstonLogger } from "../../shared/logger";
