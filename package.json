@@ -9,7 +9,7 @@
     "lint": "./node_modules/.bin/eslint -c eslint.json --ext .ts ./lambdas/",
     "lint-fix": "./node_modules/.bin/eslint -c eslint.json --ext .ts --fix ./lambdas/",
     "generate-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:generate -f ./shared/config/db.config -n",
-    "run-migrations": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:run -f ./shared/config/db.config",
+    "run-migrations": "docker-compose up -d && serverless invoke local --function migrations",
     "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db.config",
     "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db.config -n",
     "plop": "plop"
