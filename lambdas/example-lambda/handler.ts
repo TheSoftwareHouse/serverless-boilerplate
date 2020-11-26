@@ -9,6 +9,7 @@ import { ConnectionManager } from "../../shared/utils/connection-manager";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
+
 const config = createConfig(process.env);
 
 export async function handle(event: any, _: Context): Promise<any> {
