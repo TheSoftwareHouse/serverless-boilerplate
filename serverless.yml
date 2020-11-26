@@ -1,4 +1,4 @@
-service: ${env:APP_NAME, 'example-app'}
+service: ${env:APP_NAME, 'tsh-example-app'}
 
 plugins:
   - serverless-webpack
@@ -26,7 +26,7 @@ provider:
   memorySize: 256
   timeout: 30
   environment:
-    APP_NAME: ${env:APP_NAME, 'tsh-challenge-app'}
+    APP_NAME: ${env:APP_NAME, 'tsh-example-app'}
     POSTGRES_URL: ${env:POSTGRES_URL}
     AWS_S3_REGION: ${env:AWS_S3_REGION, 'eu-west-1'}
 

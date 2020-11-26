@@ -60,8 +60,13 @@ module.exports = function (plop) {
       },
       {
         type: "add",
-        path: "lambdas/{{name}}/schema-validation.ts",
-        templateFile: "plop-templates/schema-validation.ts",
+        path: "lambdas/{{name}}/event.schema.ts",
+        templateFile: "plop-templates/event.schema.ts",
+      },
+      {
+        type: "add",
+        path: "lambdas/{{name}}/config/index.ts",
+        templateFile: "plop-templates/config/index.ts",
       },
       {
         type: "modify",

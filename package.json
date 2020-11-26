@@ -22,6 +22,7 @@
     "@babel/plugin-proposal-decorators": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@types/aws-lambda": "^8.10.57",
+    "@types/dotenv": "^8.2.0",
     "@types/mocha": "7.0.2",
     "@types/node": "^12.12.47",
     "@types/supertest": "2.0.10",
@@ -61,9 +62,10 @@
   },
   "dependencies": {
     "aws-sdk": "2.691.0",
-    "dotenv-safe": "^8.2.0",
+    "dotenv": "^8.2.0",
     "joi": "^17.3.0",
     "pg": "^8.5.0",
+    "ts-pipe-compose": "^0.2.1",
     "typeorm": "^0.2.29",
     "uuid": "^3.3.2"
   }
