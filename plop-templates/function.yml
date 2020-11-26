@@ -1,7 +1,6 @@
   {{name}}:
       handler: lambdas/{{name}}/handler.handle
       environment:
-        APP_NAME: ${env:APP_NAME} 
         POSTGRES_URL: ${env:POSTGRES_URL} 
       events:
   $1

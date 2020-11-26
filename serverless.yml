@@ -27,17 +27,18 @@ provider:
   timeout: 30
   environment:
     APP_NAME: ${env:APP_NAME, 'tsh-example-app'}
-    POSTGRES_URL: ${env:POSTGRES_URL}
     AWS_S3_REGION: ${env:AWS_S3_REGION, 'eu-west-1'}
 
 functions:
   migrations:
+    environment:
+      POSTGRES_URL: ${env:POSTGRES_URL}
     handler: lambdas/migrations/handler.handle
 
   example-lambda:
     handler: lambdas/example-lambda/handler.handle
     environment:
-      APP_NAME: ${env:APP_NAME}
+      POSTGRES_URL: ${env:POSTGRES_URL}
     events:
       - http:
           path: /
