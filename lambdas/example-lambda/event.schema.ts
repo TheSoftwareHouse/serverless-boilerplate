@@ -1,5 +1,5 @@
 import joi from "joi";
 
-export const exampleSchemaValidation = joi.object({
+export const schema = joi.object({
   exampleParam: joi.string().required(),
 });
