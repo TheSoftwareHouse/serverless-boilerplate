@@ -10,9 +10,13 @@ const validateConfig = (config: any) => {
     appName: Joi.string().required(),
   });
 
-  Joi.attempt(config, schema);
+  const { error, value } = schema.validate(config);
 
-  return config;
+  if (error) {
+    throw error;
+  }
+
+  return value;
 };
 
 export const createConfig = pipeline(loadEnvs, validateConfig);
