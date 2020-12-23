@@ -21,13 +21,13 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
-  region: ${env:AWS_S3_REGION, 'eu-west-1'}
+  region: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
   stage: ${opt:stage, 'dev'}
   memorySize: 256
   timeout: 30
   environment:
     APP_NAME: ${env:APP_NAME, 'tsh-example-app'}
-    AWS_S3_REGION: ${env:AWS_S3_REGION, 'eu-west-1'}
+    AWS_S3_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
 
 functions:
   migrations:
