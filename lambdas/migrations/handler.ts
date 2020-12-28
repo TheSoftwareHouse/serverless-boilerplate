@@ -3,10 +3,7 @@ import { Context } from "aws-lambda";
 import { awsLambdaResponse } from "../../shared/aws";
 import { handleError } from "../../shared/error-handler";
 import { winstonLogger } from "../../shared/logger";
-import { loadEnvs } from "../../shared/config/env";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
-
-loadEnvs();
 
 export async function handle(__: any, _: Context): Promise<any> {
   try {

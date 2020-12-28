@@ -2,11 +2,8 @@ import Joi from "joi";
 import { pipeline } from "ts-pipe-compose";
 import { exampleMigration1605111464989 } from "../../migrations/1605111464989-example-migration";
 import { ExampleModel } from "../models/example.model";
-import { loadEnvs } from "./env";
 
 // MODELS_IMPORT
-
-loadEnvs();
 
 const loadDbConfigFromEnvs = (env: any) => ({
   type: "postgres",

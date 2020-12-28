@@ -1,9 +1,8 @@
 service: ${env:APP_NAME, 'tsh-example-app'}
-
+useDotenv: true
 plugins:
   - serverless-webpack
   - serverless-offline
-  - serverless-dotenv-plugin
   - serverless-plugin-log-retention
 
 package:
