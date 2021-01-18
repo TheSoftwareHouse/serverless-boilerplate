@@ -38,8 +38,7 @@ export const handle = middy(
         data: await connection.getRepository(ExampleModel).find({}),
       });
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
+      winstonLogger.error(e);
 
       return handleError(e);
     }
