@@ -46,10 +46,10 @@
     "eslint-plugin-react": "7.20.3",
     "eslint-plugin-unicorn": "20.1.0",
     "husky": "^4.3.0",
-    "mocha": "8.0.1",
+    "mocha": "^8.2.1",
     "plop": "^2.7.3",
     "prettier": "2.0.5",
-    "serverless": "^2.16.1",
+    "serverless": "^2.18.0",
     "serverless-offline": "6.4.0",
     "serverless-plugin-log-retention": "^2.0.0",
     "serverless-plugin-typescript": "1.1.9",
@@ -63,6 +63,7 @@
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "dependencies": {
+    "@middy/core": "^1.5.2",
     "aws-sdk": "2.691.0",
     "dotenv": "^8.2.0",
     "joi": "^17.3.0",
