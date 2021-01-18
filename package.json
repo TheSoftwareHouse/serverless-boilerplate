@@ -63,6 +63,7 @@
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "dependencies": {
+    "@middy/core": "^1.5.2",
     "aws-sdk": "2.691.0",
     "dotenv": "^8.2.0",
     "joi": "^17.3.0",
