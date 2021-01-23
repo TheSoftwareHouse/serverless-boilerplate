@@ -29,17 +29,6 @@ provider:
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
 
 functions:
-  migrations:
-    environment:
-      POSTGRES_URL: ${env:POSTGRES_URL}
-    handler: lambdas/migrations/handler.handle
-
-  example-lambda:
-    handler: lambdas/example-lambda/handler.handle
-    environment:
-      POSTGRES_URL: ${env:POSTGRES_URL}
-    events:
-      - http:
-          path: /
-          method: GET
+  - ${file(lambdas/migrations/function.yml)}
+  - ${file(lambdas/example-lambda/function.yml)}
   # PLOP_ADD_LAMBDA

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "./node_modules/.bin/serverless offline -s dev --httpPort 1337",
+    "dev": "./node_modules/.bin/serverless offline -s dev --httpPort 1337 --useChildProcesses",
     "tests": "./node_modules/.bin/mocha -r ts-node/register ./shared/**/*.spec.ts ./lambdas/**/*.spec.ts --exit",
     "format": "./node_modules/.bin/prettier --write ./shared/**/*.ts ./lambdas/**/*.ts",
     "lint": "./node_modules/.bin/eslint -c eslint.json --ext .ts ./lambdas/",
@@ -23,6 +23,7 @@
     "@babel/preset-typescript": "7.10.4",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@serverless/typescript": "^2.20.1",
     "@types/aws-lambda": "^8.10.57",
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "7.0.2",

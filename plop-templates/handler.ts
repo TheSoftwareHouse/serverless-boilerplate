@@ -1,30 +1,28 @@
-import { Context } from "aws-lambda";
-
+import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
+import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
-import { handleError } from "../../shared/error-handler";
 import { winstonLogger } from "../../shared/logger";
-import { loadEnvs } from "../../shared/config/env";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { createConfig } from "./config";
+import { logIncomingEvent } from "../../shared/middleware/log-incomming-event";
+import { handleError } from "../../shared/middleware/error-handler";
 
-loadEnvs();
+const config = createConfig(process.env);
 
-export async function handle(__: any, _: Context): Promise<any> {
-  try {
+export const handle = middy(
+  async (_event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
     winstonLogger.info("Pre connection");
+    winstonLogger.info(`Config: ${JSON.stringify(config)}`);
 
     const connectionManager = new ConnectionManager();
-    const connection = await connectionManager.getConnection();
-
-    await connection.runMigrations();
+    await connectionManager.getConnection();
 
     winstonLogger.info("Post connection");
 
     return awsLambdaResponse(200, {
       success: true,
     });
-  } catch (e) {
-    winstonLogger.error(e.message);
-
-    return handleError(e);
-  }
-}
+  },
+)
+  .use(handleError())
+  .use(logIncomingEvent());
