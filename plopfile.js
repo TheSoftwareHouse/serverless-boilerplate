@@ -69,10 +69,15 @@ module.exports = function (plop) {
         templateFile: "plop-templates/config/index.ts",
       },
       {
+        type: "add",
+        path: "lambdas/{{name}}/function.yml",
+        templateFile: "plop-templates/function.yml",
+      },
+      {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        templateFile: "plop-templates/function.yml",
+        template: "  - ${file(lambdas/{{name}}/function.yml)}\n  $1",
       },
     ],
   });
