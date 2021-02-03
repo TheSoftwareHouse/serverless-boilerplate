@@ -1,0 +1,23 @@
+name: Serverless Boilerplate
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: Build
+    strategy:
+      matrix:
+        node-version: [14]
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: cp .env.dist .env
+      - run: docker-compose up -d postgres
+      - run: npm install
+      - run: npm run run-migrations
+      - run: npm run lint
+      - run: sh ./ci/start-offline.sh
+      - run: npm run tests
+      - run: sh ./ci/stop-offline.sh
+
