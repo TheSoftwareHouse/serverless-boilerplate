@@ -1,4 +1,5 @@
 const path = require("path");
+const promptDirectory = require("inquirer-directory");
 
 const databaseConfigLocation = path.join(__dirname, "shared/config/db.config.ts");
 
@@ -22,6 +23,24 @@ const createModel = {
   templateFile: "plop-templates/model.ts",
 };
 
+const workflowResourceTemplate = `
+    {{properCase name}}StateMachine:
+      Description: Example workflow state machine Arn
+      Value:
+        Ref: {{properCase name}}Workflow
+    $1
+`;
+
+const workFlowStepTemplate = `
+    {{properCase name}}Step:
+      Type: Task
+      Resource:
+        Fn::GetAtt: [{{name}}-lambda, Arn]
+      TimeoutSeconds: 28
+      Next: done
+    $1
+`;
+
 const updateTypeORMModels = [
   {
     type: "modify",
@@ -38,6 +57,7 @@ const updateTypeORMModels = [
 ];
 
 module.exports = function (plop) {
+  plop.setPrompt("directory", promptDirectory);
   plop.setGenerator("model", {
     description: "Create model",
     prompts: [textPrompt("model")],
@@ -55,29 +75,93 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "lambdas/{{name}}/handler.ts",
-        templateFile: "plop-templates/handler.ts",
+        path: "functions/{{name}}/handler.ts",
+        templateFile: "plop-templates/function/handler.ts",
       },
       {
         type: "add",
-        path: "lambdas/{{name}}/event.schema.ts",
-        templateFile: "plop-templates/event.schema.ts",
+        path: "functions/{{name}}/event.schema.ts",
+        templateFile: "plop-templates/function/event.schema.ts",
       },
       {
         type: "add",
-        path: "lambdas/{{name}}/config/index.ts",
-        templateFile: "plop-templates/config/index.ts",
+        path: "functions/{{name}}/config/index.ts",
+        templateFile: "plop-templates/function/config/index.ts",
       },
       {
         type: "add",
-        path: "lambdas/{{name}}/function.yml",
-        templateFile: "plop-templates/function.yml",
+        path: "functions/{{name}}/function.yml",
+        templateFile: "plop-templates/function/function.yml",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(lambdas/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(functions/{{name}}/function.yml)}\n  $1",
+      },
+    ],
+  });
+  plop.setGenerator("workflow", {
+    description: "Create workflow",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "Workflow name",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "workflows/{{name}}/workflow.yml",
+        templateFile: "plop-templates/workflow/workflow.yml",
+      },
+      {
+        type: "modify",
+        path: "serverless.yml",
+        pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
+        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n $1",
+      },
+      {
+        type: "modify",
+        path: "serverless.yml",
+        pattern: / +(\# PLOP_ADD_WORKFLOW_RESOURCE)/,
+        template: workflowResourceTemplate,
+      },
+    ],
+  });
+  plop.setGenerator("workflow-step", {
+    description: "Create workflow step",
+    prompts: [
+      { type: "directory", name: "workflow", message: "Select workflow", basePath: "./workflows" },
+      {
+        type: "input",
+        name: "name",
+        message: "Step name",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "workflows/{{workflow}}/{{name}}/function.yml",
+        templateFile: "plop-templates/workflow/step/function.yml",
+      },
+      {
+        type: "add",
+        path: "workflows/{{workflow}}/{{name}}/handler.ts",
+        templateFile: "plop-templates/workflow/step/handler.ts",
+      },
+      {
+        type: "modify",
+        path: "serverless.yml",
+        pattern: / +(\# PLOP_ADD_LAMBDA)/,
+        template: "  - ${file(workflows/{{workflow}}/{{name}}/function.yml)}\n  $1",
+      },
+      {
+        type: "modify",
+        path: "workflows/{{workflow}}/workflow.yml",
+        pattern: / +(\# PLOP_ADD_WORKFLOW_STEP)/,
+        template: workFlowStepTemplate,
       },
     ],
   });
