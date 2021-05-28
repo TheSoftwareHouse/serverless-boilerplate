@@ -13,30 +13,28 @@ import { handleError } from "../../shared/middleware/error-handler";
 
 const config = createConfig(process.env);
 
-export const handle = middy(
-  async (event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
-    const queryParams = event.queryStringParameters;
+export const handle = middy(async (event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
+  const queryParams = event.queryStringParameters;
 
-    winstonLogger.info(`Hello from ${config.appName}. Example param is: ${queryParams}`);
+  winstonLogger.info(`Hello from ${config.appName}. Example param is: ${queryParams}`);
 
-    const connectionManager = new ConnectionManager();
-    const connection = await connectionManager.getConnection();
+  const connectionManager = new ConnectionManager();
+  const connection = await connectionManager.getConnection();
 
-    await connection.getRepository(ExampleModel).save(
-      ExampleModel.create({
-        id: v4(),
-        email: "some@tmp.pl",
-        firstName: "Test",
-        lastName: "User",
-      }),
-    );
+  await connection.getRepository(ExampleModel).save(
+    ExampleModel.create({
+      id: v4(),
+      email: "some@tmp.pl",
+      firstName: "Test",
+      lastName: "User",
+    }),
+  );
 
-    return awsLambdaResponse(200, {
-      success: true,
-      data: await connection.getRepository(ExampleModel).find({}),
-    });
-  },
-)
+  return awsLambdaResponse(200, {
+    success: true,
+    data: await connection.getRepository(ExampleModel).find({}),
+  });
+})
   .use(handleError())
   .use(logIncomingEvent())
   .use(validateQuery(schema));
