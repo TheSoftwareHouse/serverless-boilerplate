@@ -29,6 +29,19 @@ provider:
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
 
 functions:
-  - ${file(lambdas/migrations/function.yml)}
-  - ${file(lambdas/example-lambda/function.yml)}
+  - ${file(functions/migrations/function.yml)}
+  - ${file(functions/example-lambda/function.yml)}
   # PLOP_ADD_LAMBDA
+
+stepFunctions:
+  stateMachines:
+    ExampleWorkflow: ${file(workflows/example-workflow/workflow.yml)}
+ # PLOP_ADD_WORKFLOW_STATE_MACHINE
+
+resources:
+  Outputs:
+    ExampleWorkflowStateMachine:
+      Description: Example workflow state machine Arn
+      Value:
+        Ref: ExampleWorkflow
+    # PLOP_ADD_WORKFLOW_RESOURCE

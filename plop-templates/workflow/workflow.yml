@@ -1,0 +1,10 @@
+name: {{properCase name}}
+definition:
+  Comment: "{{properCase name}} Workflow"
+  StartAt: exampleStep
+  States:
+    # PLOP_ADD_WORKFLOW_STEP
+  fail:
+    Type: Fail
+  done:
+    Type: Succeed

@@ -1,5 +1,5 @@
 example-lambda:
-  handler: lambdas/example-lambda/handler.handle
+  handler: functions/example-lambda/handler.handle
   environment:
     POSTGRES_URL: ${env:POSTGRES_URL}
   events:

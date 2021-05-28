@@ -1,4 +1,4 @@
 migrations:
-  handler: lambdas/migrations/handler.handle
+  handler: functions/migrations/handler.handle
   environment:
     POSTGRES_URL: ${env:POSTGRES_URL}

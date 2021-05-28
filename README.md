@@ -64,7 +64,7 @@ Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
 1. [supertest](https://github.com/visionmedia/supertest#readme)
 1. [mocha](https://mochajs.org/)
 
-Here you can check example tests: [handler.spec.ts](lambdas/example-lambda/tests/handler.spec.ts)
+Here you can check example tests: [handler.spec.ts](functions/example-lambda/tests/handler.spec.ts)
 
 ##
 

@@ -1,0 +1,15 @@
+name: ExampleWorkflow
+definition:
+  Comment: "Example Workflow"
+  StartAt: exampleStep
+  States:
+    exampleStep:
+      Type: Task
+      Resource:
+        Fn::GetAtt: [example-step-lambda, Arn]
+      TimeoutSeconds: 28
+      Next: done
+  fail:
+    Type: Fail
+  done:
+    Type: Succeed
