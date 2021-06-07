@@ -3,10 +3,7 @@ node_js:
   - 12
 
 before_script:
-  - cp .env.dist .env
-  - docker-compose up -d postgres
   - npm install
-  - npm run run-migrations
 
 jobs:
   include:
@@ -14,8 +11,4 @@ jobs:
       name: "Compile"
       script:
         - npm run lint
-        - sh ./ci/start-offline.sh
-        - npm run tests
-        - sh ./ci/stop-offline.sh
-
-
+        # - npm run tests

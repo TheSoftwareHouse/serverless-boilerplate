@@ -27,7 +27,7 @@ const workflowResourceTemplate = `
     {{properCase name}}StateMachine:
       Description: Example workflow state machine Arn
       Value:
-        Ref: {{properCase name}}Workflow
+        Ref: {{properCase name}}Workflow\${self:service}\${opt:stage, 'dev'}
     $1
 `;
 

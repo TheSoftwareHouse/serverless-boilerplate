@@ -1,4 +1,4 @@
-name: ExampleWorkflow
+name: ExampleWorkflow${self:service}${opt:stage, 'dev'}
 definition:
   Comment: "Example Workflow"
   StartAt: exampleStep
@@ -9,7 +9,5 @@ definition:
         Fn::GetAtt: [example-step-lambda, Arn]
       TimeoutSeconds: 28
       Next: done
-  fail:
-    Type: Fail
-  done:
-    Type: Succeed
+    done:
+      Type: Succeed

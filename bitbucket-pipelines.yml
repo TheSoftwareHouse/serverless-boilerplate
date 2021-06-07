@@ -8,9 +8,7 @@ definitions:
         script:
           - npm install
           - npm run lint
-          - sh ./ci/start-offline.sh
-          - npm run tests
-          - sh ./ci/stop-offline.sh
+          # - npm run tests
     - step: &deploy
         name: Deploy
         trigger: manual

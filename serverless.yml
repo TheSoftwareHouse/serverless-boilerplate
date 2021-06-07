@@ -4,6 +4,7 @@ plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-plugin-log-retention
+  - serverless-step-functions
 
 package:
   individually: true
@@ -27,21 +28,29 @@ provider:
   environment:
     APP_NAME: ${env:APP_NAME, 'tsh-example-app'}
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - states:StartExecution
+      Resource:
+        - "*"
 
 functions:
   - ${file(functions/migrations/function.yml)}
   - ${file(functions/example-lambda/function.yml)}
+  - ${file(workflows/example-workflow/example-step/function.yml)}
   # PLOP_ADD_LAMBDA
 
 stepFunctions:
   stateMachines:
     ExampleWorkflow: ${file(workflows/example-workflow/workflow.yml)}
- # PLOP_ADD_WORKFLOW_STATE_MACHINE
+  # PLOP_ADD_WORKFLOW_STATE_MACHINE
 
 resources:
   Outputs:
     ExampleWorkflowStateMachine:
       Description: Example workflow state machine Arn
       Value:
-        Ref: ExampleWorkflow
+        Ref: ExampleWorkflow${self:service}${opt:stage, 'dev'}
     # PLOP_ADD_WORKFLOW_RESOURCE

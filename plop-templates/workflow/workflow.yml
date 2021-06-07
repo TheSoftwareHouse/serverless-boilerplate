@@ -1,4 +1,4 @@
-name: {{properCase name}}
+name: {{properCase name}}${self:service}${opt:stage, 'dev'}
 definition:
   Comment: "{{properCase name}} Workflow"
   StartAt: exampleStep
