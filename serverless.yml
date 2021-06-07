@@ -31,6 +31,13 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+        - ec2:DetachNetworkInterface
+      Resource: "*"
+    - Effect: Allow
+      Action:
         - lambda:InvokeFunction
         - states:StartExecution
       Resource:
