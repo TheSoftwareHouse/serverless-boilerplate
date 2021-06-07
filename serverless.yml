@@ -1,4 +1,4 @@
-service: ${env:APP_NAME, 'tsh-example-app'}
+service: ${env:APP_NAME, 'tshExampleApp'}
 useDotenv: true
 plugins:
   - serverless-webpack
@@ -26,7 +26,7 @@ provider:
   memorySize: 256
   timeout: 30
   environment:
-    APP_NAME: ${env:APP_NAME, 'tsh-example-app'}
+    APP_NAME: ${env:APP_NAME, 'tshExampleApp'}
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
   iamRoleStatements:
     - Effect: Allow
