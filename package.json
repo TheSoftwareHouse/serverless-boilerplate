@@ -8,10 +8,10 @@
     "format": "./node_modules/.bin/prettier --write ./shared/**/*.ts functions/**/*.ts",
     "lint": "./node_modules/.bin/eslint -c eslint.json --ext .ts functions/",
     "lint-fix": "./node_modules/.bin/eslint -c eslint.json --ext .ts --fix functions/",
-    "generate-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:generate -f ./shared/config/db.config -n",
+    "generate-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:generate -f ./shared/config/db -n",
     "run-migrations": "docker-compose up -d && serverless invoke local --function migrations",
-    "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db.config",
-    "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db.config -n",
+    "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db",
+    "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db -n",
     "plop": "plop",
     "prepare": "husky install"
   },
