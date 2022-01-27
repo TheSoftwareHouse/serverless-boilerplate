@@ -17,12 +17,15 @@ Boilerplate code for rapidly creating ready-to-deploy Serverless Framework servi
 ### Quick Start
 
 - **Install**
+
 ```
 npm install
 ```
-  rename .env.dist to .env, fill all information
+
+rename .env.dist to .env, fill all information
 
 - **Create lambda**
+
 ```
 npm run plop
 ```
@@ -45,9 +48,9 @@ The best choice for deployment is the bitbucket pipeline.
 Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
 
 1. compile (automated start)
-    - build
-    - run lamda offline
-    - run tests
+   - build
+   - run lamda offline
+   - run test
 2. deploy (user action required)
 
 ##
@@ -59,7 +62,7 @@ Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
 
 ##
 
-###  What do we use for testing lambdas?
+### What do we use for testing lambdas?
 
 1. [supertest](https://github.com/visionmedia/supertest#readme)
 1. [mocha](https://mochajs.org/)
@@ -70,7 +73,7 @@ Here you can check example tests: [handler.spec.ts](functions/example-lambda/tes
 
 ### What do we use for validating schemas?
 
-We use  [joi](https://joi.dev/) for schema validation.
+We use [joi](https://joi.dev/) for schema validation.
 
 ##
 

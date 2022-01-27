@@ -4,8 +4,8 @@ import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
-import { handleError } from "../../shared/middleware/error-handler";
-import { logIncomingEvent } from "../../shared/middleware/log-incomming-event";
+import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
+import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
 
 export const handle = middy(async function handle(__: any, _: Context): Promise<any> {
   winstonLogger.info("Pre connection");
@@ -21,5 +21,5 @@ export const handle = middy(async function handle(__: any, _: Context): Promise<
     success: true,
   });
 })
-  .use(handleError())
-  .use(logIncomingEvent());
+  .use(inputOutputLoggerConfigured())
+  .use(customHttpErrorHandler());

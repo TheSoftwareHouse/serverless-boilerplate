@@ -6,10 +6,10 @@ import { ConnectionManager } from "../../shared/utils/connection-manager";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
-import { logIncomingEvent } from "../../shared/middleware/log-incomming-event";
-import { validateQuery } from "../../shared/middleware/validator";
+import { joiValidator } from "../../shared/middleware/joi-validator";
 import { schema } from "./event.schema";
-import { handleError } from "../../shared/middleware/error-handler";
+import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
+import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
 
 const config = createConfig(process.env);
 
@@ -35,6 +35,6 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
     data: await connection.getRepository(ExampleModel).find({}),
   });
 })
-  .use(handleError())
-  .use(logIncomingEvent())
-  .use(validateQuery(schema));
+  .use(inputOutputLoggerConfigured())
+  .use(joiValidator(schema))
+  .use(customHttpErrorHandler());

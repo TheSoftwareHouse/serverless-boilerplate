@@ -4,8 +4,8 @@ import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
 import { createConfig } from "./config";
-import { logIncomingEvent } from "../../shared/middleware/log-incomming-event";
-import { handleError } from "../../shared/middleware/error-handler";
+import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
+import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
 
 const config = createConfig(process.env);
 
@@ -24,5 +24,5 @@ export const handle = middy(
     });
   },
 )
-  .use(handleError())
-  .use(logIncomingEvent());
+.use(inputOutputLoggerConfigured())
+.use(customHttpErrorHandler());

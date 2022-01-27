@@ -163,6 +163,13 @@ module.exports = function (plop) {
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP)/,
         template: workFlowStepTemplate,
       },
+      {
+        type: "modify",
+        path: "serverless.yml",
+        pattern: / +(\# PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP)/,
+        template:
+          "{{properCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{name}}-lambda",
+      },
     ],
   });
 };
