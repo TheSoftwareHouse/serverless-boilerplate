@@ -20,7 +20,7 @@ custom:
     region: us-east-1
     TaskResourceMapping:
       exampleStep: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-example-step-lambda
-      # PLOP_ADD_WORKFLOW_STEP_LOCAL_RESOURCE
+      # PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP
 
 provider:
   name: aws

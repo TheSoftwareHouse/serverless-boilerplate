@@ -24,7 +24,7 @@ npm install
 
 rename .env.dist to .env, fill all information
 
-- **Create lambda**
+- **Create lambda or workflow**
 
 ```
 npm run plop
@@ -38,6 +38,12 @@ npm run plop
 - rename .env.dist to .env
 - fill all information
 - npm run dev
+
+##
+
+### Run workflow locally
+
+- npm run start-workflow --workflow=NAME_OF_THE_WORKFLOW
 
 ##
 

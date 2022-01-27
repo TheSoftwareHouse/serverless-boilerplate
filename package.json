@@ -12,7 +12,7 @@
     "run-migrations": "docker-compose up -d && serverless invoke local --function migrations",
     "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db",
     "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db -n",
-    "workflow": "aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine-arn arn:aws:states:us-east-1:101010101010:stateMachine:ExampleWorkflow",
+    "start-workflow": "aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine-arn arn:aws:states:us-east-1:101010101010:stateMachine:$npm_config_workflow",
     "plop": "plop",
     "prepare": "husky install"
   },
