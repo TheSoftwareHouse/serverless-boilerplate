@@ -1,4 +1,6 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
+import httpEventNormalizer from "@middy/http-event-normalizer";
+import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
@@ -10,6 +12,7 @@ import { joiValidator } from "../../shared/middleware/joi-validator";
 import { schema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
 import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
+import { queryParser } from "../../shared/middleware/query-parser";
 
 const config = createConfig(process.env);
 
@@ -36,5 +39,8 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
   });
 })
   .use(inputOutputLoggerConfigured())
+  .use(httpEventNormalizer())
+  .use(httpHeaderNormalizer())
+  .use(queryParser())
   .use(joiValidator(schema))
   .use(customHttpErrorHandler());
