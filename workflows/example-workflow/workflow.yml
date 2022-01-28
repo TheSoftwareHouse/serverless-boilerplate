@@ -8,6 +8,4 @@ definition:
       Resource:
         Fn::GetAtt: [example-step-lambda, Arn]
       TimeoutSeconds: 28
-      Next: done
-    done:
-      Type: Succeed
+      End: true

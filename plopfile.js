@@ -31,13 +31,12 @@ const workflowResourceTemplate = `
     $1
 `;
 
-const workFlowStepTemplate = `
-    {{properCase name}}Step:
-      Type: Task
-      Resource:
-        Fn::GetAtt: [{{name}}-lambda, Arn]
-      TimeoutSeconds: 28
-      Next: done
+const workFlowStepTemplate = `      {{camelCase name}}Step:
+        Type: Task
+        Resource:
+          Fn::GetAtt: [{{name}}-lambda, Arn]
+        TimeoutSeconds: 28
+        End: true
     $1
 `;
 
@@ -120,7 +119,7 @@ module.exports = function (plop) {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
-        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n $1",
+        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n  $1",
       },
       {
         type: "modify",
@@ -162,6 +161,13 @@ module.exports = function (plop) {
         path: "workflows/{{workflow}}/workflow.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP)/,
         template: workFlowStepTemplate,
+      },
+      {
+        type: "modify",
+        path: "serverless.yml",
+        pattern: / +(\# PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP)/,
+        template:
+          "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{name}}-lambda\n      $1",
       },
     ],
   });

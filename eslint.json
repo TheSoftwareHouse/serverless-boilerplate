@@ -3,7 +3,7 @@
   "env": {
     "mocha": true
   },
-  "plugins": ["prettier", "unicorn", "chai-friendly"],
+  "plugins": ["prettier", "unicorn", "chai-friendly", "import"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"

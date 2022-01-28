@@ -1,38 +1,15 @@
 const path = require("path");
 const slsw = require("serverless-webpack");
 const CopyPlugin = require("copy-webpack-plugin");
-const FilterWarningsPlugin = require("webpack-filter-warnings-plugin");
-const webpack = require("webpack");
 
 module.exports = {
-  plugins: [
-    new CopyPlugin({ patterns: [{ from: ".env.dist" }] }),
-    new webpack.IgnorePlugin(/^pg-native$/),
-    new FilterWarningsPlugin({
-      exclude: [
-        /mongodb/,
-        /mssql/,
-        /mysql/,
-        /mysql2/,
-        /oracledb/,
-        /pg-native/,
-        /pg-query-stream/,
-        /react-native-sqlite-storage/,
-        /redis/,
-        /sqlite3/,
-        /sql.js/,
-        /typeorm-aurora-data-api-driver/,
-      ],
-    }),
-  ],
+  plugins: [new CopyPlugin({ patterns: [{ from: ".env.dist" }] })],
   entry: slsw.lib.entries,
   mode: "none",
-  target: "node",
+  target: "node14",
+  externals: ["aws-sdk", "pg-native"],
   node: {
     __dirname: true,
-  },
-  externals: {
-    "aws-sdk": "aws-sdk",
   },
   resolve: {
     extensions: [".js", ".json", ".ts", ".tsx"],
@@ -45,31 +22,36 @@ module.exports = {
     path: path.join(__dirname, ".webpack"),
     filename: "[name].js",
   },
+  ignoreWarnings: [
+    {
+      module: /node_modules\/typeorm/,
+      message: /Can't resolve/,
+    },
+    {
+      module: /node_modules/,
+      message: /Critical dependency: the request of a dependency is an expression/,
+    },
+  ],
   module: {
     rules: [
       {
         test: /\.ts(x?)$/,
+        exclude: [/plop-templates/, /node_modules/],
         use: [
           {
             loader: "ts-loader",
             options: {
-              transpileOnly: true,
+              transpileOnly: process.env.NODE_ENV !== "dev",
             },
           },
         ],
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /plop-templates/],
         use: [
           {
             loader: "babel-loader",
-            options: {
-              plugins: [
-                ["@babel/plugin-proposal-decorators", { legacy: true }],
-                ["@babel/plugin-proposal-class-properties", { loose: true }],
-              ],
-            },
           },
         ],
       },
