@@ -1,11 +1,2 @@
 name: ExampleWorkflow${self:service}${opt:stage, 'dev'}
-definition:
-  Comment: "Example Workflow"
-  StartAt: exampleStep
-  States:
-    exampleStep:
-      Type: Task
-      Resource:
-        Fn::GetAtt: [example-step-lambda, Arn]
-      TimeoutSeconds: 28
-      End: true
+definition: ${file(./workflows/example-workflow/workflow.asl.yml)}
