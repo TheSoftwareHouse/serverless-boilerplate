@@ -31,13 +31,15 @@ const workflowResourceTemplate = `
     $1
 `;
 
-const workFlowStepTemplate = `      {{camelCase name}}Step:
-        Type: Task
-        Resource:
-          Fn::GetAtt: [{{name}}-lambda, Arn]
-        TimeoutSeconds: 28
-        End: true
-    $1
+const workFlowStepTemplate = `  {{camelCase name}}Step:
+    Type: Task
+    Resource: arn:aws:states:::lambda:invoke
+    Parameters:
+      FunctionName:
+        Ref: {{name}}-lambda
+    TimeoutSeconds: 28
+    End: true
+  $1
 `;
 
 const updateTypeORMModels = [
@@ -116,6 +118,11 @@ module.exports = function (plop) {
         templateFile: "plop-templates/workflow/workflow.yml",
       },
       {
+        type: "add",
+        path: "workflows/{{name}}/workflow.asl.yml",
+        templateFile: "plop-templates/workflow/workflow.asl.yml",
+      },
+      {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
@@ -158,7 +165,7 @@ module.exports = function (plop) {
       },
       {
         type: "modify",
-        path: "workflows/{{workflow}}/workflow.yml",
+        path: "workflows/{{workflow}}/workflow.asl.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP)/,
         template: workFlowStepTemplate,
       },

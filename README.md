@@ -47,6 +47,12 @@ npm run plop
 
 ##
 
+### Develop workflow
+
+We support ASL for Step Functions. Make sure to install AWS Toolkit so you can render graph for step functions and validate its syntax easily.
+
+##
+
 ### Deploy
 
 The best choice for deployment is the bitbucket pipeline.
