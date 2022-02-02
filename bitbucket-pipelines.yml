@@ -1,4 +1,4 @@
-image: node:alpine
+image: node:14-alpine
 definitions:
   steps:
     - step: &compile
@@ -8,9 +8,7 @@ definitions:
         script:
           - npm install
           - npm run lint
-          - sh ./ci/start-offline.sh
-          - npm run tests
-          - sh ./ci/stop-offline.sh
+          # - npm run tests
     - step: &deploy
         name: Deploy
         trigger: manual
@@ -18,7 +16,7 @@ definitions:
           - node
         script:
           - npm install
-          - ./node_modules/.bin/serverless config credentials --stage ${STAGE} --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
+          - ./node_modules/.bin/serverless config credentials --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
           - ./node_modules/.bin/serverless deploy --stage ${STAGE}
 
 pipelines:
