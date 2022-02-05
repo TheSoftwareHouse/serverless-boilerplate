@@ -33,10 +33,7 @@ const workflowResourceTemplate = `
 
 const workFlowStepTemplate = `  {{camelCase name}}Step:
     Type: Task
-    Resource: arn:aws:states:::lambda:invoke
-    Parameters:
-      FunctionName:
-        Ref: {{name}}-lambda
+    Resource: !GetAtt {{name}}-lambda.Arn
     TimeoutSeconds: 28
     End: true
   $1

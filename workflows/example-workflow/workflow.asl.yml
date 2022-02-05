@@ -3,10 +3,7 @@ StartAt: exampleStep
 States:
   exampleStep:
     Type: Task
-    Resource: arn:aws:states:::lambda:invoke
-    Parameters:
-      FunctionName:
-        Ref: example-step-lambda
+    Resource: !GetAtt example-step-lambda.Arn
     TimeoutSeconds: 28
     End: true
   # PLOP_ADD_WORKFLOW_STEP
