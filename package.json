@@ -79,6 +79,7 @@
     "ts-loader": "^9.2.6",
     "ts-pipe-compose": "^0.2.1",
     "typeorm": "^0.2.44",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.6.0"
   }
 }
