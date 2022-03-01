@@ -38,6 +38,8 @@ export const joiValidator = (
         const { value } = validationResult;
 
         request.event[EventMapHelper[key]] = value;
+
+        return undefined;
       })
       .filter((error) => error);
 

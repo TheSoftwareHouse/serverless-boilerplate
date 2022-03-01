@@ -1,10 +1,9 @@
-import { Context } from "aws-lambda";
 import middy from "@middy/core";
 
 import { winstonLogger } from "../../shared/logger";
 import { ConnectionManager } from "../../shared/utils/connection-manager";
 
-export const handle = middy(async function handle(__: any, _: Context): Promise<any> {
+export const handle = middy(async (): Promise<void> => {
   winstonLogger.info("Pre connection");
 
   const connectionManager = new ConnectionManager();
@@ -13,6 +12,4 @@ export const handle = middy(async function handle(__: any, _: Context): Promise<
   await connection.runMigrations();
 
   winstonLogger.info("Post connection");
-
-  return;
 });

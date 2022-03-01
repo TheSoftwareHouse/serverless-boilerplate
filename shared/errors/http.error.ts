@@ -6,6 +6,7 @@ export class HttpError extends AppError {
     super(message);
 
     const description = parent ? `${parent.constructor.name}: ${parent.message}` : message;
+    // eslint-disable-next-line no-nested-ternary
     const stack = process.env.STAGE === "staging" ? (parent ? parent.stack : this.stack) : undefined;
 
     const error = {
