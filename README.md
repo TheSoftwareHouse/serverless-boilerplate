@@ -39,6 +39,8 @@ npm run plop
 - fill all information
 - npm run dev
 
+Tu run `serverless-step-functions-local` you need to have installed java!
+
 ##
 
 ### Run workflow locally
