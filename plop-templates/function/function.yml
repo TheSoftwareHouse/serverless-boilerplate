@@ -1,5 +1,5 @@
 {{name}}:
-  handler: functions/{{name}}/handler.handle
+  handler: src/functions/{{name}}/handler.handle
   environment:
     POSTGRES_URL: ${env:POSTGRES_URL}
   events:

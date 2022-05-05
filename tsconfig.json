@@ -11,9 +11,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": ["es2015", "es2020.string", "ES2020.Promise"],
-    "typeRoots": ["./node_modules/@types", "./shared/typings"],
+    "typeRoots": ["node_modules/@types"],
     "downlevelIteration": true,
-    "rootDir": "./",
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

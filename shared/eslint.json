@@ -1,0 +1,4 @@
+{
+  "extends": "../eslint.json",
+  "ignorePatterns": ["node_modules/"]
+}

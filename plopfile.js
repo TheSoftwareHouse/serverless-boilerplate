@@ -1,7 +1,7 @@
 const path = require("path");
 const promptDirectory = require("inquirer-directory");
 
-const databaseConfigLocation = path.join(__dirname, "shared/config/db.config.ts");
+const databaseConfigLocation = path.join(__dirname, "shared/src/config/db.ts");
 
 const isNotEmptyFor = (name) => {
   return (value) => {
@@ -19,7 +19,7 @@ const textPrompt = (name) => ({
 
 const createModel = {
   type: "add",
-  path: `shared/models/{{kebabCase name}}.model.ts`,
+  path: `shared/src/models/{{kebabCase name}}.model.ts`,
   templateFile: "plop-templates/model.ts",
 };
 
@@ -55,6 +55,10 @@ const updateTypeORMModels = [
 ];
 
 module.exports = function (plop) {
+  plop.setHelper("getPathLastDirName", function (p) {
+    return p.split("/").pop();
+  });
+
   plop.setPrompt("directory", promptDirectory);
   plop.setGenerator("model", {
     description: "Create model",
@@ -69,33 +73,39 @@ module.exports = function (plop) {
         name: "name",
         message: "Name",
       },
+      {
+        type: "directory",
+        name: "service",
+        message: "Select service where you want to create your Lambda",
+        basePath: "./services",
+      },
     ],
     actions: [
       {
         type: "add",
-        path: "functions/{{name}}/handler.ts",
+        path: "services/{{service}}/src/functions/{{name}}/handler.ts",
         templateFile: "plop-templates/function/handler.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/event.schema.ts",
+        path: "services/{{service}}/src/functions/{{name}}/event.schema.ts",
         templateFile: "plop-templates/function/event.schema.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/config/index.ts",
+        path: "services/{{service}}/src/functions/{{name}}/config/index.ts",
         templateFile: "plop-templates/function/config/index.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/function.yml",
+        path: "services/{{service}}/src/functions/{{name}}/function.yml",
         templateFile: "plop-templates/function/function.yml",
       },
       {
         type: "modify",
-        path: "serverless.yml",
+        path: "services/{{service}}/serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(functions/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(src/functions/{{name}}/function.yml)}\n  $1",
       },
     ],
   });
@@ -107,27 +117,33 @@ module.exports = function (plop) {
         name: "name",
         message: "Workflow name",
       },
+      {
+        type: "directory",
+        name: "service",
+        message: "Select service where you want to create your Workflow",
+        basePath: "./services",
+      },
     ],
     actions: [
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.yml",
+        path: "services/{{service}}/src/workflows/{{name}}/workflow.yml",
         templateFile: "plop-templates/workflow/workflow.yml",
       },
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.asl.yml",
+        path: "services/{{service}}/src/workflows/{{name}}/workflow.asl.yml",
         templateFile: "plop-templates/workflow/workflow.asl.yml",
       },
       {
         type: "modify",
-        path: "serverless.yml",
+        path: "services/{{service}}/serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
-        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n  $1",
+        template: "    {{properCase name}}: ${file(src/workflows/{{name}}/workflow.yml)}\n  $1",
       },
       {
         type: "modify",
-        path: "serverless.yml",
+        path: "services/{{service}}/serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_RESOURCE)/,
         template: workflowResourceTemplate,
       },
@@ -136,7 +152,12 @@ module.exports = function (plop) {
   plop.setGenerator("workflow-step", {
     description: "Create workflow step",
     prompts: [
-      { type: "directory", name: "workflow", message: "Select workflow", basePath: "./workflows" },
+      {
+        type: "directory",
+        name: "workflow",
+        message: "Select workflow where you want to create your Workflow Step",
+        basePath: "./services",
+      },
       {
         type: "input",
         name: "name",
@@ -146,29 +167,29 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/function.yml",
+        path: "services/{{workflow}}/{{name}}/function.yml",
         templateFile: "plop-templates/workflow/step/function.yml",
       },
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/handler.ts",
+        path: "services/{{workflow}}/{{name}}/handler.ts",
         templateFile: "plop-templates/workflow/step/handler.ts",
       },
       {
         type: "modify",
-        path: "serverless.yml",
+        path: "services/{{workflow}}/../../../serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(workflows/{{workflow}}/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(src/workflows/{{getPathLastDirName workflow}}/{{name}}/function.yml)}\n  $1",
       },
       {
         type: "modify",
-        path: "workflows/{{workflow}}/workflow.asl.yml",
+        path: "services/{{workflow}}/workflow.asl.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP)/,
         template: workFlowStepTemplate,
       },
       {
         type: "modify",
-        path: "serverless.yml",
+        path: "services/{{workflow}}/../../../serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP)/,
         template:
           "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{name}}-lambda\n      $1",

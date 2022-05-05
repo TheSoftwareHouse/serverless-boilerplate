@@ -1,0 +1,6 @@
+example-lambda:
+  handler: src/functions/example-lambda/handler.handle
+  events:
+    - http:
+        path: /
+        method: GET

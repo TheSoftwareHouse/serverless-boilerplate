@@ -1,11 +1,11 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import middy from "@middy/core";
-import { awsLambdaResponse } from "../../shared/aws";
-import { winstonLogger } from "../../shared/logger";
-import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { awsLambdaResponse } from "../../shared/src/aws";
+import { winstonLogger } from "../../shared/src/logger";
+import { ConnectionManager } from "../../shared/src/utils/connection-manager";
 import { createConfig } from "./config";
-import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
+import { inputOutputLoggerConfigured } from "../../shared/src/middleware/input-output-logger-configured";
+import { customHttpErrorHandler } from "../../shared/src/middleware/custom-http-error-handler";
 
 const config = createConfig(process.env);
 

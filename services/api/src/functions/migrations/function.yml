@@ -1,0 +1,4 @@
+migrations:
+  handler: src/functions/migrations/handler.handle
+  environment:
+    POSTGRES_URL: ${env:POSTGRES_URL}

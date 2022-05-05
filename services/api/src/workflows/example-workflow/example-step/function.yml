@@ -1,0 +1,2 @@
+example-step-lambda:
+  handler: src/workflows/example-workflow/example-step/handler.handle

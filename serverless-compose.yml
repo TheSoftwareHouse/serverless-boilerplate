@@ -1,0 +1,6 @@
+services:
+  api:
+    path: services/api
+
+  backoffice:
+    path: services/backoffice

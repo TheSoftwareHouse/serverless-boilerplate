@@ -1,0 +1,9 @@
+.DS_Store
+node_modules
+.serverless
+.step-functions-local
+.build
+.webpack
+.env
+
+.idea

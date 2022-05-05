@@ -1,2 +1,0 @@
-name: ExampleWorkflow${self:service}${opt:stage, 'dev'}
-definition: ${file(./workflows/example-workflow/workflow.asl.yml)}
