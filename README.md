@@ -12,9 +12,23 @@
 
 Boilerplate code for rapidly creating ready-to-deploy Serverless Framework services.
 
+### Multi-stacks support
+
+The project uses [Serverless Framework Compose](https://www.serverless.com/framework/docs/guides/compose) to manage multiple stacks from a single repo.
+
+Services are located under `services/` directory. Each service is a single, independent CF stack.
+Services are linked together in `serverless-compose.yml` file.
+
+All off the stacks can be managed from the root project directory using standard `serverless` commands.
+
+For instance, if you want to deploy the entire stack, just hit `serverless deploy`.
+If you want to deploy only a specific service, type `serverless deploy --service=<service-name>`.
+
+
 ##
 
 ### Quick Start
+
 
 - **Install**
 
@@ -22,9 +36,18 @@ Boilerplate code for rapidly creating ready-to-deploy Serverless Framework servi
 npm install
 ```
 
+Note: `npm install` will install dependencies for all the stacks located under `services/` and for shared dependencies located under `shared/`.
+
+```
+cd `services/<desired-stack>
+```
+
 rename .env.dist to .env, fill all information
 
 - **Create lambda or workflow**
+
+Note: Plop is supported from the project root. Make sure to be in the project root, when you run it.
+It allows you to specify the stack you want to create the resource in.
 
 ```
 npm run plop
@@ -34,6 +57,7 @@ npm run plop
 
 ### Development Local
 
+- cd `services/<desired-stack>`
 - npm install
 - rename .env.dist to .env
 - fill all information
