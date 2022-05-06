@@ -49,6 +49,11 @@ Tu run `serverless-step-functions-local` you need to run your docker service wit
 
 - npm run start-workflow --workflow=NAME_OF_THE_WORKFLOW
 
+### Follow workflow logs
+
+To follow all the logs from the step function executions you can use the command:
+
+``npm run get-sf-logs``
 ##
 
 ### Develop workflow
