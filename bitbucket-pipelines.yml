@@ -16,7 +16,7 @@ definitions:
           - node
         script:
           - npm install
-          - ./node_modules/.bin/serverless config credentials --stage ${STAGE} --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
+          - ./node_modules/.bin/serverless config credentials --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
           - ./node_modules/.bin/serverless deploy --stage ${STAGE}
 
 pipelines:
