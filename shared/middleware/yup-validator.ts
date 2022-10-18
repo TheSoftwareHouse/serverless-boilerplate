@@ -1,14 +1,14 @@
 import middy from "@middy/core";
-import Joi from "joi";
+import { AnySchema, ValidationError } from "yup";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { StatusCodes } from "http-status-codes";
 import { HttpError } from "../errors/http.error";
 
-export interface JoiValidatorSchema {
-  headers?: Joi.AnySchema;
-  body?: Joi.AnySchema;
-  query?: Joi.AnySchema;
-  path?: Joi.AnySchema;
+export interface YupValidatorSchema {
+  headers?: AnySchema;
+  body?: AnySchema;
+  query?: AnySchema;
+  path?: AnySchema;
 }
 
 const EventMapHelper = {
@@ -18,8 +18,8 @@ const EventMapHelper = {
   path: "pathParameters",
 };
 
-export const joiValidator = (
-  schema: JoiValidatorSchema,
+export const yupValidator = (
+  schema: YupValidatorSchema,
 ): middy.MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult> => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (request): Promise<void> => {
     const requestData = {
@@ -30,15 +30,18 @@ export const joiValidator = (
     };
 
     const errors = Object.keys(schema)
-      .map((key) => {
-        const validationResult = schema[key]!.validate(requestData[key], { abortEarly: false, convert: true });
-        if (validationResult.error) {
-          return validationResult.error.message;
+      .map((key: keyof YupValidatorSchema) => {
+        try {
+          const value = schema[key]?.validateSync(requestData[key], { abortEarly: false });
+          request.event[EventMapHelper[key]] = value;
+        } catch(err) {
+          if(err instanceof ValidationError) {
+            return err.inner.map(({ message }) => message)
+          }
+          throw err;
         }
-        const { value } = validationResult;
-
-        request.event[EventMapHelper[key]] = value;
       })
+      .flat()
       .filter((error) => error);
 
     if (errors.length > 0) {

@@ -1,5 +1,5 @@
 import { commonHeaders } from "./headers";
-import { ValidationError } from "joi";
+import { ValidationError } from "yup";
 import { AppError } from "./errors/app.error";
 import { HttpError } from "./errors/http.error";
 
@@ -15,7 +15,7 @@ export const awsLambdaResponse = (statusCode: number, body?: any) => {
 
 export const createErrorResponse = (error) => {
   if (error instanceof ValidationError) {
-    return awsLambdaResponse(400, error.details);
+    return awsLambdaResponse(400, { path: error.path, message: error.message });
   }
 
   if (error instanceof HttpError) {

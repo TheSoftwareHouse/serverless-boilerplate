@@ -1,11 +1,11 @@
-import Joi from "joi";
+import { string, boolean, object, array, mixed } from "yup";
 import { pipeline } from "ts-pipe-compose";
 import { exampleMigration1605111464989 } from "../../migrations/1605111464989-example-migration";
 import { ExampleModel } from "../models/example.model";
 
 // MODELS_IMPORT
 
-const loadDbConfigFromEnvs = (env: any) => ({
+const loadDbConfigFromEnvs = (env: NodeJS.ProcessEnv) => ({
   type: "postgres",
   synchronize: false,
   logging: true,
@@ -23,24 +23,21 @@ const loadDbConfigFromEnvs = (env: any) => ({
   url: env.POSTGRES_URL,
 });
 
-const validateDbConfig = (config: any) => {
-  const schema = Joi.object().keys({
-    type: Joi.string().required(),
-    url: Joi.string().required(),
-    synchronize: Joi.any().allow(false).required(),
-    logging: Joi.boolean().required(),
-    entities: Joi.array().items(Joi.any().required()).required(),
-    migrations: Joi.array().items(Joi.any().required()).required(),
-    cli: Joi.object()
-      .keys({
-        migrationsDir: Joi.string().required(),
-      })
-      .required(),
-  });
+const schema = object({
+  type: string().required(),
+  url: string().required(),
+  synchronize: boolean().required(),
+  logging: boolean().required(),
+  entities: array(mixed()).min(1).required(),
+  migrations: array(mixed()).min(1).required(),
+  cli: object({
+      migrationsDir: string().required(),
+    })
+    .required(),
+});
 
-  Joi.assert(config, schema);
-
-  return config;
+const validateDbConfig = (config: Record<string, unknown>) => {
+  return schema.validateSync(config);
 };
 
 const createDbConfigFromEnvs = pipeline(loadDbConfigFromEnvs, validateDbConfig);

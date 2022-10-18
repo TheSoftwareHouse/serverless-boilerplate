@@ -8,7 +8,7 @@ import { ConnectionManager } from "../../shared/utils/connection-manager";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
-import { joiValidator } from "../../shared/middleware/joi-validator";
+import { yupValidator } from "../../shared/middleware/yup-validator";
 import { schema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
 import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
@@ -42,5 +42,5 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
   .use(queryParser())
-  .use(joiValidator(schema))
+  .use(yupValidator(schema))
   .use(customHttpErrorHandler());

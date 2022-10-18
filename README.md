@@ -94,7 +94,7 @@ Here you can check example tests: [handler.spec.ts](functions/example-lambda/tes
 
 ### What do we use for validating schemas?
 
-We use [joi](https://joi.dev/) for schema validation.
+We use [yup](https://github.com/jquense/yup) for schema validation.
 
 ##
 

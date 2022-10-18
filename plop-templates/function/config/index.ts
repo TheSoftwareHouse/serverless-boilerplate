@@ -1,22 +1,14 @@
-import Joi from "joi";
+import { object, string} from "yup";
 import { pipeline } from "ts-pipe-compose";
 
-const loadEnvs = (env: any) => ({
+const loadEnvs = (env: NodeJS.ProcessEnv) => ({
   appName: env.APP_NAME,
 });
 
-const validateConfig = (config: any) => {
-  const schema = Joi.object().keys({
-    appName: Joi.string().required(),
-  });
+const schema = object({
+  appName: string().required(),
+})
 
-  const { error, value } = schema.validate(config);
-
-  if (error) {
-    throw error;
-  }
-
-  return value;
-};
+const validateConfig = (config: Record<string, unknown>) => schema.validateSync(config);
 
 export const createConfig = pipeline(loadEnvs, validateConfig);

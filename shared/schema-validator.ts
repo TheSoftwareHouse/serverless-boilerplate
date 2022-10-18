@@ -1,7 +1,7 @@
-import Joi from "joi";
+import { AnySchema } from "yup";
 
-export const createSchemaValidator = (schema: Joi.ObjectSchema) => {
-  return (input: any) => {
-    return Joi.attempt(input, schema);
+export const createSchemaValidator = <T extends AnySchema>(schema: T) => {
+  return (input: unknown) => {
+    return schema.validateSync(input);
   };
 };
