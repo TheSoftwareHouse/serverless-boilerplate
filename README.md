@@ -19,6 +19,7 @@ Boilerplate code for rapidly creating ready-to-deploy Serverless Framework servi
 - **Install**
 
 ```
+npm config set legacy-peer-deps=true
 npm install
 ```
 

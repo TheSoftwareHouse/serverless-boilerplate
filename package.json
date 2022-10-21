@@ -1,6 +1,6 @@
 {
   "name": "serverless-boilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Serverless boilerplate",
   "homepage": "https://tsh.io",
   "author": "TSH",
@@ -25,7 +25,8 @@
     "start-workflow": "aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine-arn arn:aws:states:us-east-1:101010101010:stateMachine:$npm_config_workflow",
     "get-sf-logs": "docker-compose logs --follow sfLocal",
     "plop": "plop",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-command-run": "npm config set legacy-peer-deps=true"
   },
   "devDependencies": {
     "@babel/core": "7.19.6",
