@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cp .env.dist .env
+      - run: npm config set legacy-peer-deps=true
       - run: npm install
       - run: npm run lint
       # - run: npm run tests

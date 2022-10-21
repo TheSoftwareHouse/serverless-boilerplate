@@ -1,1 +1,6 @@
 plop-templates
+.step-functions-local
+.webpack
+.serverless
+.data
+.migrations
