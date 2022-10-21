@@ -16,6 +16,7 @@ custom:
     webpackConfig: "webpack.config.js"
     packager: "npm"
   stepFunctionsLocal:
+    externalInstance: true
     accountId: 101010101010
     region: us-east-1
     TaskResourceMapping:

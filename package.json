@@ -23,6 +23,7 @@
     "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -f ./shared/config/db",
     "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create -f ./shared/config/db -n",
     "start-workflow": "aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine-arn arn:aws:states:us-east-1:101010101010:stateMachine:$npm_config_workflow",
+    "get-sf-logs": "docker-compose logs --follow sfLocal",
     "plop": "plop",
     "prepare": "husky install"
   },

@@ -16,5 +16,13 @@ services:
       - 8080:8080
     networks:
       - app
+  sfLocal: 
+    image: amazon/aws-stepfunctions-local
+    environment:
+      AWS_ACCOUNT_ID: 101010101010
+      AWS_DEFAULT_REGION: us-east-1
+      LAMBDA_ENDPOINT: http://host.docker.internal:4000
+    ports:
+      - 8083:8083
 networks:
   app:
