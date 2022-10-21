@@ -1,9 +1,9 @@
 {
-  "extends": ["airbnb-base", "airbnb-typescript/base", "prettier", "plugin:chai-friendly/recommended"],
+  "extends": ["airbnb-base", "airbnb-typescript/base", "plugin:prettier/recommended", "plugin:chai-friendly/recommended"],
   "env": {
     "mocha": true
   },
-  "plugins": ["unicorn", "chai-friendly", "import"],
+  "plugins": ["prettier", "unicorn", "chai-friendly", "import"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
