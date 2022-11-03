@@ -16,7 +16,7 @@ services:
       - 8080:8080
     networks:
       - app
-  sfLocal: 
+  sfLocal:
     image: amazon/aws-stepfunctions-local
     environment:
       AWS_ACCOUNT_ID: 101010101010

@@ -42,7 +42,9 @@ npm run plop
 
 Tu run `serverless-step-functions-local` you need to run your docker service with command:
 
-``docker-compose up``
+```
+docker-compose up
+```
 
 ##
 
@@ -54,7 +56,10 @@ Tu run `serverless-step-functions-local` you need to run your docker service wit
 
 To follow all the logs from the step function executions you can use the command:
 
-``npm run get-sf-logs``
+```
+npm run get-sf-logs
+```
+
 ##
 
 ### Develop workflow

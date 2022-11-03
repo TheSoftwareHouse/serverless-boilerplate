@@ -11,8 +11,8 @@ import { createConfig } from "./config";
 import { joiValidator } from "../../shared/middleware/joi-validator";
 import { schema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
 import { queryParser } from "../../shared/middleware/query-parser";
+import httpErrorHandler from "@middy/http-error-handler";
 
 const config = createConfig(process.env);
 
@@ -43,4 +43,4 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
   .use(httpHeaderNormalizer())
   .use(queryParser())
   .use(joiValidator(schema))
-  .use(customHttpErrorHandler());
+  .use(httpErrorHandler());
