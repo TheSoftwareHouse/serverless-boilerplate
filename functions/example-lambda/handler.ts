@@ -1,4 +1,3 @@
-import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import httpEventNormalizer from "@middy/http-event-normalizer";
 import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import middy from "@middy/core";
@@ -8,18 +7,16 @@ import { ConnectionManager } from "../../shared/utils/connection-manager";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
-import { joiValidator } from "../../shared/middleware/joi-validator";
-import { schema } from "./event.schema";
+import { ExampleLambdaPayload, exampleLambdaSchema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
 import { queryParser } from "../../shared/middleware/query-parser";
-import httpErrorHandler from "@middy/http-error-handler";
+import { zodValidator } from "../../shared/middleware/zod-validator";
+import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
 
 const config = createConfig(process.env);
 
-export const handle = middy(async (event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
-  const queryParams = event.queryStringParameters;
-
-  winstonLogger.info(`Hello from ${config.appName}. Example param is: ${queryParams}`);
+const lambdaHandler = async (event: ExampleLambdaPayload) => {
+  winstonLogger.info(`Hello from ${config.appName}. Example param is: ${event.queryStringParameters.exampleParam}`);
 
   const connectionManager = new ConnectionManager();
   const connection = await connectionManager.getConnection();
@@ -35,12 +32,18 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
 
   return awsLambdaResponse(200, {
     success: true,
-    data: await connection.getRepository(ExampleModel).find({}),
+    data: {
+      users: await connection.getRepository(ExampleModel).find({}),
+      exampleParam: event.queryStringParameters.exampleParam,
+    },
   });
-})
+};
+
+export const handle = middy()
   .use(inputOutputLoggerConfigured())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
+  .use(zodValidator(exampleLambdaSchema))
   .use(queryParser())
-  .use(joiValidator(schema))
-  .use(httpErrorHandler());
+  .use(httpErrorHandlerConfigured)
+  .handler(lambdaHandler);

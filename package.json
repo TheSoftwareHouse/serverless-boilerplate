@@ -79,12 +79,12 @@
     "dotenv": "^16.0.3",
     "eslint-plugin-prettier": "^4.2.1",
     "http-status-codes": "^2.2.0",
-    "joi": "^17.6.4",
     "pg": "^8.8.0",
     "ts-loader": "^9.4.1",
     "ts-pipe-compose": "^0.2.1",
     "typeorm": "^0.3.10",
     "uuid": "^9.0.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "zod": "^3.19.1"
   }
 }
