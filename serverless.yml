@@ -11,6 +11,12 @@ package:
   individually: true
 
 custom:
+  vpc:
+    securityGroupIds:
+      - ${env:SECURITY_GROUP_ID}
+    subnetIds:
+      - ${env:SUBNET_ID_1}
+      - ${env:SUBNET_ID_2}
   logRetentionInDays: 30
   webpack:
     webpackConfig: "webpack.config.js"

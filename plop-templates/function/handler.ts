@@ -1,21 +1,22 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import middy from "@middy/core";
+import httpEventNormalizer from "@middy/http-event-normalizer";
+import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
-import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { dataSource } from "../../shared/config/db";
 import { createConfig } from "./config";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import { customHttpErrorHandler } from "../../shared/middleware/custom-http-error-handler";
+import httpErrorHandler from "@middy/http-error-handler";
 
+const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 
 export const handle = middy(
   async (_event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
     winstonLogger.info("Pre connection");
     winstonLogger.info(`Config: ${JSON.stringify(config)}`);
-
-    const connectionManager = new ConnectionManager();
-    await connectionManager.getConnection();
+    await connectToDb;
 
     winstonLogger.info("Post connection");
 
@@ -25,4 +26,6 @@ export const handle = middy(
   },
 )
 .use(inputOutputLoggerConfigured())
-.use(customHttpErrorHandler());
+.use(httpEventNormalizer())
+.use(httpHeaderNormalizer())
+.use(httpErrorHandler());
