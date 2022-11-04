@@ -4,7 +4,7 @@ import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
-import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { dataSource } from "../../shared/config/db";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
@@ -14,6 +14,7 @@ import { inputOutputLoggerConfigured } from "../../shared/middleware/input-outpu
 import { queryParser } from "../../shared/middleware/query-parser";
 import httpErrorHandler from "@middy/http-error-handler";
 
+const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 
 export const handle = middy(async (event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
@@ -21,10 +22,9 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
 
   winstonLogger.info(`Hello from ${config.appName}. Example param is: ${queryParams}`);
 
-  const connectionManager = new ConnectionManager();
-  const connection = await connectionManager.getConnection();
+  await connectToDb;
 
-  await connection.getRepository(ExampleModel).save(
+  await dataSource.getRepository(ExampleModel).save(
     ExampleModel.create({
       id: v4(),
       email: "some@tmp.pl",
@@ -35,7 +35,7 @@ export const handle = middy(async (event: APIGatewayEvent, _context: Context): P
 
   return awsLambdaResponse(200, {
     success: true,
-    data: await connection.getRepository(ExampleModel).find({}),
+    data: await dataSource.getRepository(ExampleModel).find({}),
   });
 })
   .use(inputOutputLoggerConfigured())

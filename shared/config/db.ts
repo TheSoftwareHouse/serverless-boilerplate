@@ -1,9 +1,13 @@
 import Joi from "joi";
 import { pipeline } from "ts-pipe-compose";
-import { exampleMigration1605111464989 } from "../../migrations/1605111464989-example-migration";
+import { DataSource } from "typeorm";
+import { migration1667584203150 } from "../../migrations/1667584203150-migration";
 import { ExampleModel } from "../models/example.model";
+import { loadEnvs } from "../utils/env";
 
 // MODELS_IMPORT
+
+loadEnvs();
 
 const loadDbConfigFromEnvs = (env: any) => ({
   type: "postgres",
@@ -14,7 +18,7 @@ const loadDbConfigFromEnvs = (env: any) => ({
     // MODELS_SETUP
   ],
   migrations: [
-    exampleMigration1605111464989,
+    migration1667584203150,
     // PUT MIGRATIONS HERE
   ],
   cli: {
@@ -30,7 +34,7 @@ const validateDbConfig = (config: any) => {
     synchronize: Joi.any().allow(false).required(),
     logging: Joi.boolean().required(),
     entities: Joi.array().items(Joi.any().required()).required(),
-    migrations: Joi.array().items(Joi.any().required()).required(),
+    migrations: Joi.array().items(Joi.any().optional()).required(),
     cli: Joi.object()
       .keys({
         migrationsDir: Joi.string().required(),
@@ -45,6 +49,6 @@ const validateDbConfig = (config: any) => {
 
 const createDbConfigFromEnvs = pipeline(loadDbConfigFromEnvs, validateDbConfig);
 
-const config = createDbConfigFromEnvs(process.env);
+export const config = createDbConfigFromEnvs(process.env);
 
-export = config;
+export const dataSource = new DataSource(config);

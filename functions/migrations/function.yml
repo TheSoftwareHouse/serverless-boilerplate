@@ -1,4 +1,5 @@
 migrations:
   handler: functions/migrations/handler.handle
+  vpc: ${self:custom.vpc}
   environment:
     POSTGRES_URL: ${env:POSTGRES_URL}

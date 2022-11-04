@@ -1,15 +1,14 @@
 import middy from "@middy/core";
-
+import { dataSource } from "../../shared/config/db";
 import { winstonLogger } from "../../shared/logger";
-import { ConnectionManager } from "../../shared/utils/connection-manager";
+
+const connectToDb = dataSource.initialize();
 
 export const handle = middy(async (): Promise<void> => {
   winstonLogger.info("Pre connection");
 
-  const connectionManager = new ConnectionManager();
-  const connection = await connectionManager.getConnection();
-
-  await connection.runMigrations();
+  await connectToDb;
+  await dataSource.runMigrations();
 
   winstonLogger.info("Post connection");
 });
