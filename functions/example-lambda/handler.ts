@@ -3,7 +3,7 @@ import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
-import { ConnectionManager } from "../../shared/utils/connection-manager";
+import { dataSource } from "../../shared/config/db";
 import { ExampleModel } from "../../shared/models/example.model";
 import { v4 } from "uuid";
 import { createConfig } from "./config";
@@ -13,15 +13,15 @@ import { queryParser } from "../../shared/middleware/query-parser";
 import { zodValidator } from "../../shared/middleware/zod-validator";
 import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
 
+const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 
 const lambdaHandler = async (event: ExampleLambdaPayload) => {
   winstonLogger.info(`Hello from ${config.appName}. Example param is: ${event.queryStringParameters.exampleParam}`);
 
-  const connectionManager = new ConnectionManager();
-  const connection = await connectionManager.getConnection();
+  await connectToDb;
 
-  await connection.getRepository(ExampleModel).save(
+  await dataSource.getRepository(ExampleModel).save(
     ExampleModel.create({
       id: v4(),
       email: "some@tmp.pl",
@@ -33,7 +33,7 @@ const lambdaHandler = async (event: ExampleLambdaPayload) => {
   return awsLambdaResponse(200, {
     success: true,
     data: {
-      users: await connection.getRepository(ExampleModel).find({}),
+      users: await dataSource.getRepository(ExampleModel).find({}),
       exampleParam: event.queryStringParameters.exampleParam,
     },
   });
