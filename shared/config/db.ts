@@ -1,4 +1,4 @@
-import Joi from "joi";
+import { z } from "zod";
 import { pipeline } from "ts-pipe-compose";
 import { DataSource } from "typeorm";
 import { migration1667584203150 } from "../../migrations/1667584203150-migration";
@@ -28,21 +28,23 @@ const loadDbConfigFromEnvs = (env: any) => ({
 });
 
 const validateDbConfig = (config: any) => {
-  const schema = Joi.object().keys({
-    type: Joi.string().required(),
-    url: Joi.string().required(),
-    synchronize: Joi.any().allow(false).required(),
-    logging: Joi.boolean().required(),
-    entities: Joi.array().items(Joi.any().required()).required(),
-    migrations: Joi.array().items(Joi.any().optional()).required(),
-    cli: Joi.object()
-      .keys({
-        migrationsDir: Joi.string().required(),
-      })
-      .required(),
+  const schema = z.object({
+    type: z.string(),
+    url: z.string().url(),
+    synchronize: z.any(),
+    logging: z.boolean(),
+    entities: z.array(z.any()),
+    migrations: z.array(z.any()),
+    cli: z.object({
+      migrationsDir: z.string(),
+    }),
   });
 
-  Joi.assert(config, schema);
+  try {
+    schema.parse(config);
+  } catch (error) {
+    throw new Error(error as string);
+  }
 
   return config;
 };
