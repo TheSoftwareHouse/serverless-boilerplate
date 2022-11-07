@@ -7,25 +7,32 @@ import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
 import { createConfig } from "./config";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import httpErrorHandler from "@middy/http-error-handler";
+import {ExampleLambdaPayload} from "./event.schema";
+import {zodValidator} from "../../shared/middleware/zod-validator";
+import {exampleLambdaSchema} from "../../functions/example-lambda/event.schema";
+import {queryParser} from "../../shared/middleware/query-parser";
+import {httpErrorHandlerConfigured} from "../../shared/middleware/http-error-handler-configured";
 
 const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 
-export const handle = middy(
-  async (_event: APIGatewayEvent, _context: Context): Promise<APIGatewayProxyResult> => {
-    winstonLogger.info("Pre connection");
-    winstonLogger.info(`Config: ${JSON.stringify(config)}`);
-    await connectToDb;
+const lambdaHandler = async (event: ExampleLambdaPayload) => {
+  winstonLogger.info("Pre connection");
+  winstonLogger.info(`Config: ${JSON.stringify(config)}`);
+  await connectToDb;
 
-    winstonLogger.info("Post connection");
+  winstonLogger.info("Post connection");
 
-    return awsLambdaResponse(200, {
-      success: true,
-    });
-  },
-)
-.use(inputOutputLoggerConfigured())
-.use(httpEventNormalizer())
-.use(httpHeaderNormalizer())
-.use(httpErrorHandler());
+  return awsLambdaResponse(200, {
+    success: true,
+  });
+};
+
+export const handle = middy()
+  .use(inputOutputLoggerConfigured())
+  .use(httpEventNormalizer())
+  .use(httpHeaderNormalizer())
+  .use(zodValidator(exampleLambdaSchema))
+  .use(queryParser())
+  .use(httpErrorHandlerConfigured)
+  .handler(lambdaHandler);

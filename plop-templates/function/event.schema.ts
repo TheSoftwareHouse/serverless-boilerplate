@@ -1,8 +1,13 @@
-import joi from "joi";
-import { JoiValidatorSchema } from "../../shared/middleware/joi-validator";
+import { z } from "zod";
 
-export const schema: JoiValidatorSchema = {
-  query: joi.object().keys({
-    exampleParam: joi.string().required(),
+export const exampleLambdaSchema = z.object({
+  queryStringParameters: z.object({
+    exampleParam: z
+      .string({
+        required_error: "exampleParam is required",
+      })
+      .min(1, "exampleParam can't be empty"),
   }),
-};
+});
+
+export type ExampleLambdaPayload = z.infer<typeof exampleLambdaSchema>;

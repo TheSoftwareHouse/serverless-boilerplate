@@ -1,4 +1,4 @@
-import Joi from "joi";
+import { z } from "zod";
 import { pipeline } from "ts-pipe-compose";
 
 const loadEnvs = (env: any) => ({
@@ -6,17 +6,17 @@ const loadEnvs = (env: any) => ({
 });
 
 const validateConfig = (config: any) => {
-  const schema = Joi.object().keys({
-    appName: Joi.string().required(),
+  const schema = z.object({
+    appName: z.string().min(1),
   });
 
-  const { error, value } = schema.validate(config);
-
-  if (error) {
-    throw error;
+  try {
+    schema.parse(config);
+  } catch (error) {
+    throw new Error(error as string);
   }
 
-  return value;
+  return config;
 };
 
 export const createConfig = pipeline(loadEnvs, validateConfig);
