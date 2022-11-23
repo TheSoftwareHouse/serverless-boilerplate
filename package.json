@@ -20,7 +20,7 @@
     "lint-fix": "./node_modules/.bin/eslint -c eslint.json --ext .ts --fix functions/ --ext .ts --fix workflows/ --ext .ts --fix shared/",
     "generate-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:generate ./migrations/migration -d ./shared/config/db",
     "run-migrations": "docker-compose up -d && serverless invoke local --function migrations",
-    "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:run -d ./shared/config/db",
+    "revert-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:revert -d ./shared/config/db",
     "create-migration": "docker-compose up -d && ts-node ./node_modules/typeorm/cli.js migration:create ./migrations/migration",
     "start-workflow": "aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine-arn arn:aws:states:us-east-1:101010101010:stateMachine:$npm_config_workflow",
     "get-sf-logs": "docker-compose logs --follow sfLocal",
