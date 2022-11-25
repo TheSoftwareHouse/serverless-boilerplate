@@ -1,7 +1,7 @@
 const path = require("path");
 const promptDirectory = require("inquirer-directory");
 
-const databaseConfigLocation = path.join(__dirname, "shared/config/db.config.ts");
+const databaseConfigLocation = path.join(__dirname, "shared/config/db.ts");
 
 const isNotEmptyFor = (name) => {
   return (value) => {
