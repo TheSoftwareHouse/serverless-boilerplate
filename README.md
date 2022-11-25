@@ -76,7 +76,7 @@ Deployment [pipeline](bitbucket-pipelines.yml) consist of two steps:
 
 1. compile (automated start)
    - build
-   - run lamda offline
+   - run lambda offline
    - run test
 2. deploy (user action required)
 
@@ -100,14 +100,14 @@ Here you can check example tests: [handler.spec.ts](functions/example-lambda/tes
 
 ### What do we use for validating schemas?
 
-We use [joi](https://joi.dev/) for schema validation.
+We use [zod](https://zod.dev/) for schema validation.
 
 ##
 
 ### **Issues:**
 
 If you notice any issues while using, let as know on **[github](https://github.com/TheSoftwareHouse/serverless-boilerplate/issues)**.
-Security issues, please sent on <a href="mailto:security.opensource@tsh.io"><b>email</b></a>
+Security issues, please send on <a href="mailto:security.opensource@tsh.io"><b>email</b></a>
 
 ### **You may also like our other projects:**
 
