@@ -7,10 +7,15 @@ export const zodValidator = <T>(schema: ZodSchema<T>): Required<Pick<MiddlewareO
   before: async (request) => {
     if (!schema) return;
 
-    try {
-      await schema.parseAsync(request.event);
-    } catch (error) {
-      throw new HttpError(error as string, StatusCodes.BAD_REQUEST);
+    const { event } = request;
+    const parserResult = schema.safeParse(event);
+
+    if (!parserResult.success) {
+      throw new HttpError(parserResult.error.issues, StatusCodes.BAD_REQUEST);
     }
+
+    event.body = parserResult.data?.body ?? event.body;
+    event.queryStringParameters = parserResult.data?.queryStringParameters ?? event.queryStringParameters;
+    event.headers = parserResult.data?.headers ?? event.headers;
   },
 });
