@@ -43,7 +43,7 @@ export const handle = middy()
   .use(inputOutputLoggerConfigured())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
-  .use(zodValidator(exampleLambdaSchema))
   .use(queryParser())
+  .use(zodValidator(exampleLambdaSchema))
   .use(httpErrorHandlerConfigured)
   .handler(lambdaHandler);
