@@ -14,6 +14,7 @@
   },
   "scripts": {
     "dev": "./node_modules/.bin/serverless offline start -s dev --httpPort 1337 --lambdaPort 4000",
+    "dev-with-debug": "./node_modules/.bin/serverless offline start -s dev --httpPort 1337 --lambdaPort 4000 --reloadHandler --useInProcess",
     "test": "./node_modules/.bin/mocha -r ts-node/register ./shared/**/*.spec.ts ./functions/**/*.spec.ts --exit",
     "format": "./node_modules/.bin/prettier --write .",
     "lint": "./node_modules/.bin/eslint -c eslint.json --ext .ts functions/ --ext .ts workflows/ --ext .ts shared/",
