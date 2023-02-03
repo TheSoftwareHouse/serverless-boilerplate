@@ -73,29 +73,29 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "functions/{{name}}/handler.ts",
+        path: "functions/{{kebabCase name}}/handler.ts",
         templateFile: "plop-templates/function/handler.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/event.schema.ts",
+        path: "functions/{{kebabCase name}}/event.schema.ts",
         templateFile: "plop-templates/function/event.schema.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/config/index.ts",
+        path: "functions/{{kebabCase name}}/config/index.ts",
         templateFile: "plop-templates/function/config/index.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/function.yml",
+        path: "functions/{{kebabCase name}}/function.yml",
         templateFile: "plop-templates/function/function.yml",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(functions/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(functions/{{kebabCase name}}/function.yml)}\n  $1",
       },
     ],
   });

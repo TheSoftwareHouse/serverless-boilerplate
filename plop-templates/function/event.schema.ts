@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const exampleLambdaSchema = z.object({
+export const {{camelCase name}}LambdaSchema = z.object({
   queryStringParameters: z.object({
     exampleParam: z
       .string({
@@ -10,4 +10,4 @@ export const exampleLambdaSchema = z.object({
   }),
 });
 
-export type ExampleLambdaPayload = z.infer<typeof exampleLambdaSchema>;
+export type {{pascalCase name}}LambdaPayload = z.infer<typeof {{camelCase name}}LambdaSchema>;

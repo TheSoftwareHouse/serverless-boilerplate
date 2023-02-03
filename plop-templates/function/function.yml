@@ -1,5 +1,5 @@
-{{name}}:
-  handler: functions/{{name}}/handler.handle
+{{ kebabCase name }}:
+  handler: functions/{{kebabCase name}}/handler.handle
   vpc: ${self:custom.vpc}
   environment:
     POSTGRES_URL: ${env:POSTGRES_URL}
