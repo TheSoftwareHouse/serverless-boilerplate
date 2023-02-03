@@ -24,10 +24,10 @@ const createModel = {
 };
 
 const workflowResourceTemplate = `
-    {{properCase name}}StateMachine:
+    {{pascalCase name}}WorkflowStateMachine:
       Description: {{sentenceCase name}} state machine Arn
       Value:
-        Ref: {{properCase name}}\${self:service}\${opt:stage, 'dev'}
+        Ref: {{pascalCase name}}Workflow\${self:service}\${opt:stage, 'dev'}
     $1
 `;
 
@@ -111,19 +111,19 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.yml",
+        path: "workflows/{{kebabCase name}}/workflow.yml",
         templateFile: "plop-templates/workflow/workflow.yml",
       },
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.asl.yml",
+        path: "workflows/{{kebabCase name}}/workflow.asl.yml",
         templateFile: "plop-templates/workflow/workflow.asl.yml",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
-        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n  $1",
+        template: "    {{pascalCase name}}Workflow: ${file(workflows/{{kebabCase name}}/workflow.yml)}\n  $1",
       },
       {
         type: "modify",
