@@ -33,7 +33,7 @@ const workflowResourceTemplate = `
 
 const workFlowStepTemplate = `  {{camelCase name}}Step:
     Type: Task
-    Resource: !GetAtt {{name}}-lambda.Arn
+    Resource: !GetAtt {{kebabCase name}}-lambda.Arn
     TimeoutSeconds: 28
     End: true
   $1
@@ -146,19 +146,19 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/function.yml",
+        path: "workflows/{{workflow}}/{{kebabCase name}}/function.yml",
         templateFile: "plop-templates/workflow/step/function.yml",
       },
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/handler.ts",
+        path: "workflows/{{workflow}}/{{kebabCase name}}/handler.ts",
         templateFile: "plop-templates/workflow/step/handler.ts",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(workflows/{{workflow}}/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(workflows/{{workflow}}/{{kebabCase name}}/function.yml)}\n  $1",
       },
       {
         type: "modify",
@@ -171,7 +171,7 @@ module.exports = function (plop) {
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP)/,
         template:
-          "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{name}}-lambda\n      $1",
+          "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{kebabCase name}}-lambda\n      $1",
       },
     ],
   });
