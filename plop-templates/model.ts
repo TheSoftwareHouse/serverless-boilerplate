@@ -16,5 +16,5 @@ export class {{pascalCase name}}Model {
   }
 
   @PrimaryColumn()
-  id: string;
+  id!: string;
 }
