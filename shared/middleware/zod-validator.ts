@@ -11,6 +11,7 @@ export const zodValidator = <T extends ZodTypeAny>(schema: T): Required<Pick<Mid
     const parserResult = schema.safeParse(event);
 
     if (!parserResult.success) {
+      // @ts-ignore
       throw new HttpError(parserResult.error.issues, StatusCodes.BAD_REQUEST);
     }
 

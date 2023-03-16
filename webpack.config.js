@@ -2,10 +2,16 @@ const path = require("path");
 const slsw = require("serverless-webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
+const {
+  lib: {
+    webpack: { isLocal },
+  },
+} = slsw;
+
 module.exports = {
   plugins: [new CopyPlugin({ patterns: [{ from: ".env.dist" }] })],
   entry: slsw.lib.entries,
-  mode: "none",
+  mode: isLocal ? "development" : "production",
   target: "node18",
   externals: ["aws-sdk", "pg-native"],
   node: {
@@ -15,7 +21,7 @@ module.exports = {
     extensions: [".js", ".json", ".ts", ".tsx"],
   },
   optimization: {
-    minimize: false,
+    minimize: !isLocal,
   },
   output: {
     libraryTarget: "commonjs",
@@ -41,7 +47,7 @@ module.exports = {
           {
             loader: "ts-loader",
             options: {
-              transpileOnly: process.env.NODE_ENV !== "dev",
+              transpileOnly: !isLocal,
             },
           },
         ],
