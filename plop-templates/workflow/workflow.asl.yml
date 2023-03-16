@@ -1,4 +1,4 @@
-Comment: "{{properCase name}} Workflow"
+Comment: "{{sentenceCase name}} Workflow"
 StartAt: exampleStep
 States:
   # PLOP_ADD_WORKFLOW_STEP

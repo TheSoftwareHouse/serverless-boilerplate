@@ -7,7 +7,7 @@ import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
 import { createConfig } from "./config";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import {ExampleLambdaPayload} from "./event.schema";
+import { {{pascalCase name}}LambdaPayload } from "./event.schema";
 import {zodValidator} from "../../shared/middleware/zod-validator";
 import {exampleLambdaSchema} from "../../functions/example-lambda/event.schema";
 import {queryParser} from "../../shared/middleware/query-parser";
@@ -16,7 +16,7 @@ import {httpErrorHandlerConfigured} from "../../shared/middleware/http-error-han
 const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 
-const lambdaHandler = async (event: ExampleLambdaPayload) => {
+const lambdaHandler = async (event: {{pascalCase name}}LambdaPayload) => {
   winstonLogger.info("Pre connection");
   winstonLogger.info(`Config: ${JSON.stringify(config)}`);
   await connectToDb;

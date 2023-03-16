@@ -24,16 +24,16 @@ const createModel = {
 };
 
 const workflowResourceTemplate = `
-    {{properCase name}}StateMachine:
+    {{pascalCase name}}WorkflowStateMachine:
       Description: {{sentenceCase name}} state machine Arn
       Value:
-        Ref: {{properCase name}}\${self:service}\${opt:stage, 'dev'}
+        Ref: {{pascalCase name}}Workflow\${self:service}\${opt:stage, 'dev'}
     $1
 `;
 
 const workFlowStepTemplate = `  {{camelCase name}}Step:
     Type: Task
-    Resource: !GetAtt {{name}}-lambda.Arn
+    Resource: !GetAtt {{kebabCase name}}-lambda.Arn
     TimeoutSeconds: 28
     End: true
   $1
@@ -73,29 +73,29 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "functions/{{name}}/handler.ts",
+        path: "functions/{{kebabCase name}}/handler.ts",
         templateFile: "plop-templates/function/handler.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/event.schema.ts",
+        path: "functions/{{kebabCase name}}/event.schema.ts",
         templateFile: "plop-templates/function/event.schema.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/config/index.ts",
+        path: "functions/{{kebabCase name}}/config/index.ts",
         templateFile: "plop-templates/function/config/index.ts",
       },
       {
         type: "add",
-        path: "functions/{{name}}/function.yml",
+        path: "functions/{{kebabCase name}}/function.yml",
         templateFile: "plop-templates/function/function.yml",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(functions/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(functions/{{kebabCase name}}/function.yml)}\n  $1",
       },
     ],
   });
@@ -111,19 +111,19 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.yml",
+        path: "workflows/{{kebabCase name}}/workflow.yml",
         templateFile: "plop-templates/workflow/workflow.yml",
       },
       {
         type: "add",
-        path: "workflows/{{name}}/workflow.asl.yml",
+        path: "workflows/{{kebabCase name}}/workflow.asl.yml",
         templateFile: "plop-templates/workflow/workflow.asl.yml",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STATE_MACHINE)/,
-        template: "    {{properCase name}}: ${file(workflows/{{name}}/workflow.yml)}\n  $1",
+        template: "    {{pascalCase name}}Workflow: ${file(workflows/{{kebabCase name}}/workflow.yml)}\n  $1",
       },
       {
         type: "modify",
@@ -146,19 +146,19 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/function.yml",
+        path: "workflows/{{workflow}}/{{kebabCase name}}/function.yml",
         templateFile: "plop-templates/workflow/step/function.yml",
       },
       {
         type: "add",
-        path: "workflows/{{workflow}}/{{name}}/handler.ts",
+        path: "workflows/{{workflow}}/{{kebabCase name}}/handler.ts",
         templateFile: "plop-templates/workflow/step/handler.ts",
       },
       {
         type: "modify",
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_LAMBDA)/,
-        template: "  - ${file(workflows/{{workflow}}/{{name}}/function.yml)}\n  $1",
+        template: "  - ${file(workflows/{{workflow}}/{{kebabCase name}}/function.yml)}\n  $1",
       },
       {
         type: "modify",
@@ -171,7 +171,7 @@ module.exports = function (plop) {
         path: "serverless.yml",
         pattern: / +(\# PLOP_ADD_WORKFLOW_STEP_LOCAL_STEP)/,
         template:
-          "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{name}}-lambda\n      $1",
+          "      {{camelCase name}}Step: arn:aws:lambda:us-east-1:101010101010:function:${env:APP_NAME, 'tshExampleApp'}-${opt:stage, 'dev'}-{{kebabCase name}}-lambda\n      $1",
       },
     ],
   });
