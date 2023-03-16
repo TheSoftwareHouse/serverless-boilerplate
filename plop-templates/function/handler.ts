@@ -2,6 +2,7 @@ import middy from "@middy/core";
 import httpEventNormalizer from "@middy/http-event-normalizer";
 import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import jsonBodyParser from "@middy/http-json-body-parser";
+import { StatusCodes } from "http-status-codes";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
@@ -11,8 +12,8 @@ import { {{pascalCase name}}LambdaPayload } from "./event.schema";
 import { zodValidator } from "../../shared/middleware/zod-validator";
 import { exampleLambdaSchema } from "../example-lambda/event.schema";
 import { queryParser } from "../../shared/middleware/query-parser";
+import { httpCorsConfigured } from "../../shared/middleware/http-cors-configured";
 import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
-import { StatusCodes } from "http-status-codes";
 
 const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
@@ -34,6 +35,7 @@ export const handle = middy()
   .use(inputOutputLoggerConfigured())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
+  .use(httpCorsConfigured)
   .use(queryParser())
   .use(zodValidator(exampleLambdaSchema))
   .use(httpErrorHandlerConfigured)

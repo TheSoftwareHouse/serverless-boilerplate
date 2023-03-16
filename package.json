@@ -73,6 +73,7 @@
   },
   "dependencies": {
     "@middy/core": "^4.2.7",
+    "@middy/http-cors": "^4.2.7",
     "@middy/http-error-handler": "^4.2.7",
     "@middy/http-event-normalizer": "^4.2.7",
     "@middy/http-header-normalizer": "^4.2.7",

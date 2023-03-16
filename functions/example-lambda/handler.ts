@@ -13,6 +13,7 @@ import { ExampleLambdaPayload, exampleLambdaSchema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
 import { queryParser } from "../../shared/middleware/query-parser";
 import { zodValidator } from "../../shared/middleware/zod-validator";
+import { httpCorsConfigured } from "../../shared/middleware/http-cors-configured";
 import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
 
 const connectToDb = dataSource.initialize();
@@ -46,6 +47,7 @@ export const handle = middy()
   .use(inputOutputLoggerConfigured())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
+  .use(httpCorsConfigured)
   .use(queryParser())
   .use(zodValidator(exampleLambdaSchema))
   .use(httpErrorHandlerConfigured)
