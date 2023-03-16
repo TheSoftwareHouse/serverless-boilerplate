@@ -48,6 +48,16 @@ docker-compose up
 
 ##
 
+### Debugging locally
+
+Serverless uses workers to run lambdas locally. To debug them in your IDE you need to add `--useInProcess` flag, or run the following command:
+
+```
+npm run dev-with-debug
+```
+
+##
+
 ### Run workflow locally
 
 - npm run start-workflow --workflow=NAME_OF_THE_WORKFLOW
