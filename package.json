@@ -74,6 +74,7 @@
     "@middy/http-error-handler": "^3.6.2",
     "@middy/http-event-normalizer": "^3.6.2",
     "@middy/http-header-normalizer": "^3.6.2",
+    "@middy/http-json-body-parser": "^4.2.3",
     "@middy/input-output-logger": "^3.6.2",
     "@middy/util": "^3.6.2",
     "aws-sdk": "^2.1240.0",

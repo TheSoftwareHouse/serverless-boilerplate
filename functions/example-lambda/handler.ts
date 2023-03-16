@@ -1,5 +1,6 @@
 import httpEventNormalizer from "@middy/http-event-normalizer";
 import httpHeaderNormalizer from "@middy/http-header-normalizer";
+import jsonBodyParser from "@middy/http-json-body-parser";
 import middy from "@middy/core";
 import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
@@ -40,6 +41,7 @@ const lambdaHandler = async (event: ExampleLambdaPayload) => {
 };
 
 export const handle = middy()
+  .use(jsonBodyParser())
   .use(inputOutputLoggerConfigured())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer())
