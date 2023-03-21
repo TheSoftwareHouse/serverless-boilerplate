@@ -6,7 +6,7 @@ module.exports = {
   plugins: [new CopyPlugin({ patterns: [{ from: ".env.dist" }] })],
   entry: slsw.lib.entries,
   mode: "none",
-  target: "node14",
+  target: "node18",
   externals: ["aws-sdk", "pg-native"],
   node: {
     __dirname: true,

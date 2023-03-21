@@ -31,7 +31,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   region: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
   stage: ${opt:stage, 'dev'}
   memorySize: 256
@@ -39,20 +39,22 @@ provider:
   environment:
     APP_NAME: ${env:APP_NAME, 'tshExampleApp'}
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - ec2:CreateNetworkInterface
-        - ec2:DescribeNetworkInterfaces
-        - ec2:DeleteNetworkInterface
-        - ec2:DetachNetworkInterface
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - lambda:InvokeFunction
-        - states:StartExecution
-      Resource:
-        - "*"
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+          - ec2:CreateNetworkInterface
+          - ec2:DescribeNetworkInterfaces
+          - ec2:DeleteNetworkInterface
+          - ec2:DetachNetworkInterface
+        Resource: "*"
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+          - states:StartExecution
+        Resource:
+          - "*"
 
 functions:
   - ${file(functions/migrations/function.yml)}

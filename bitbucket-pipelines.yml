@@ -1,4 +1,4 @@
-image: node:14-alpine
+image: node:18-alpine
 definitions:
   steps:
     - step: &compile
@@ -8,7 +8,7 @@ definitions:
         script:
           - npm install
           - npm run lint
-          # - npm run tests
+          # - npm run test
     - step: &deploy
         name: Deploy
         trigger: manual

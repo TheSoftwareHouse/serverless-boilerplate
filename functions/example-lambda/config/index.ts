@@ -11,11 +11,10 @@ const validateConfig = (config: any) => {
   });
 
   try {
-    schema.parse(config);
+    return schema.parse(config);
   } catch (error) {
     throw new Error(error as string);
   }
-  return config;
 };
 
 export const createConfig = pipeline(loadEnvs, validateConfig);

@@ -1,5 +1,5 @@
 import { PrimaryColumn, Column, Entity } from "typeorm";
-import { v4 } from "uuid";
+import { randomUUID } from "crypto";
 
 interface ExampleModelProps {
   id: string;
@@ -15,19 +15,19 @@ export class ExampleModel {
   public static create(data: Partial<ExampleModelProps>): ExampleModel {
     const entity = new ExampleModel();
     Object.assign(entity, data);
-    if (!entity.id) entity.id = v4();
+    if (!entity.id) entity.id = randomUUID();
     return entity;
   }
 
   @PrimaryColumn()
-  id: string;
+  id!: string;
 
   @Column()
-  email: string;
+  email!: string;
 
   @Column()
-  firstName: string;
+  firstName!: string;
 
   @Column()
-  lastName: string;
+  lastName!: string;
 }

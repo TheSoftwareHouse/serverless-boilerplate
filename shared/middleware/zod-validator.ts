@@ -1,9 +1,9 @@
 import { MiddlewareObj } from "@middy/core";
-import { ZodSchema } from "zod";
+import { ZodTypeAny } from "zod";
 import { HttpError } from "../errors/http.error";
 import { StatusCodes } from "http-status-codes";
 
-export const zodValidator = <T>(schema: ZodSchema<T>): Required<Pick<MiddlewareObj<any, any>, "before">> => ({
+export const zodValidator = <T extends ZodTypeAny>(schema: T): Required<Pick<MiddlewareObj<any, any>, "before">> => ({
   before: async (request) => {
     if (!schema) return;
 

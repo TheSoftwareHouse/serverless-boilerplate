@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 
 export const loadEnvs = () => {
   dotenv.config();

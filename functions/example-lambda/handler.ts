@@ -6,7 +6,8 @@ import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
 import { ExampleModel } from "../../shared/models/example.model";
-import { v4 } from "uuid";
+import { randomUUID } from "crypto";
+import { StatusCodes } from "http-status-codes";
 import { createConfig } from "./config";
 import { ExampleLambdaPayload, exampleLambdaSchema } from "./event.schema";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
@@ -24,17 +25,17 @@ const lambdaHandler = async (event: ExampleLambdaPayload) => {
 
   await dataSource.getRepository(ExampleModel).save(
     ExampleModel.create({
-      id: v4(),
+      id: randomUUID(),
       email: "some@tmp.pl",
       firstName: "Test",
       lastName: "User",
     }),
   );
 
-  return awsLambdaResponse(200, {
+  return awsLambdaResponse(StatusCodes.OK, {
     success: true,
     data: {
-      users: await dataSource.getRepository(ExampleModel).find({}),
+      users: await dataSource.getRepository(ExampleModel).find(),
       exampleParam: event.queryStringParameters.exampleParam,
     },
   });

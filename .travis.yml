@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 12
+  - 18
 
 before_script:
   - npm install
@@ -11,4 +11,4 @@ jobs:
       name: "Compile"
       script:
         - npm run lint
-        # - npm run tests
+        # - npm run test
