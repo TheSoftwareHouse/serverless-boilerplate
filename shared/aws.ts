@@ -1,14 +1,10 @@
 import { StatusCodes } from "http-status-codes";
-import { commonHeaders } from "./headers";
 import { AppError } from "./errors/app.error";
 import { HttpError } from "./errors/http.error";
 
 export const awsLambdaResponse = (statusCode: number, body?: any) => ({
   statusCode,
   body: body ? JSON.stringify(body) : body,
-  headers: {
-    ...commonHeaders,
-  },
 });
 
 export const createErrorResponse = (error: any) => {
