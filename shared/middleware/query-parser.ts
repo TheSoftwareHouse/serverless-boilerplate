@@ -26,6 +26,7 @@ export const queryParser = (): middy.MiddlewareObj<APIGatewayProxyEvent, APIGate
       resultQuery[queryKey] = value;
     });
 
+    // @ts-ignore
     // eslint-disable-next-line no-param-reassign
     event.queryStringParameters = resultQuery;
   };
