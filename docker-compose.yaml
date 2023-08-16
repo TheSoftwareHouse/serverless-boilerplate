@@ -4,7 +4,6 @@ services:
     image: postgres:15-alpine
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_USERNAME: postgres
       POSTGRES_DB: app
     networks:
       - app

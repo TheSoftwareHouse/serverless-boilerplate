@@ -13,7 +13,7 @@ module.exports = {
   entry: slsw.lib.entries,
   mode: isLocal ? "development" : "production",
   target: "node18",
-  externals: ["aws-sdk", "pg-native"],
+  externals: ["pg-native"],
   node: {
     __dirname: true,
   },
