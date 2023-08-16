@@ -8,9 +8,8 @@ import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
 import { createConfig } from "./config";
 import { inputOutputLoggerConfigured } from "../../shared/middleware/input-output-logger-configured";
-import { {{pascalCase name}}LambdaPayload } from "./event.schema";
+import { {{pascalCase name}}LambdaPayload, {{camelCase name}}LambdaSchema } from "./event.schema";
 import { zodValidator } from "../../shared/middleware/zod-validator";
-import { exampleLambdaSchema } from "../example-lambda/event.schema";
 import { queryParser } from "../../shared/middleware/query-parser";
 import { httpCorsConfigured } from "../../shared/middleware/http-cors-configured";
 import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
@@ -37,6 +36,6 @@ export const handle = middy()
   .use(httpHeaderNormalizer())
   .use(httpCorsConfigured)
   .use(queryParser())
-  .use(zodValidator(exampleLambdaSchema))
+  .use(zodValidator({{camelCase name}}LambdaSchema))
   .use(httpErrorHandlerConfigured)
   .handler(lambdaHandler);
