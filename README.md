@@ -19,7 +19,6 @@ Boilerplate code for rapidly creating ready-to-deploy Serverless Framework servi
 - **Install**
 
 ```
-npm config set legacy-peer-deps=true
 npm install
 ```
 
@@ -35,18 +34,12 @@ npm run plop
 
 ### Development Local
 
+- docker-compose up
 - npm install
 - rename .env.dist to .env
 - fill all information
+- npm run run-migrations
 - npm run dev
-
-Tu run `serverless-step-functions-local` you need to run your docker service with command:
-
-```
-docker-compose up
-```
-
-##
 
 ### Debugging locally
 
