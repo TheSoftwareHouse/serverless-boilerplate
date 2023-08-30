@@ -5,7 +5,6 @@ plugins:
   - serverless-step-functions
   - serverless-webpack
   - serverless-offline
-  - serverless-plugin-log-retention
 
 package:
   individually: true
@@ -17,7 +16,6 @@ custom:
     subnetIds:
       - ${env:SUBNET_ID_1}
       - ${env:SUBNET_ID_2}
-  logRetentionInDays: 30
   webpack:
     webpackConfig: "webpack.config.js"
     packager: "npm"
@@ -37,6 +35,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   memorySize: 256
   timeout: 30
+  logRetentionInDays: 30
   environment:
     APP_NAME: ${env:APP_NAME, 'tshExampleApp'}
     AWS_LAMBDAS_REGION: ${env:AWS_LAMBDAS_REGION, 'eu-west-1'}
