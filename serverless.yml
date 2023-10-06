@@ -1,4 +1,5 @@
 service: ${env:APP_NAME, 'tshExampleApp'}
+configValidationMode: error
 useDotenv: true
 plugins:
   - serverless-step-functions-local
@@ -42,19 +43,19 @@ provider:
   iam:
     role:
       statements:
-      - Effect: Allow
-        Action:
-          - ec2:CreateNetworkInterface
-          - ec2:DescribeNetworkInterfaces
-          - ec2:DeleteNetworkInterface
-          - ec2:DetachNetworkInterface
-        Resource: "*"
-      - Effect: Allow
-        Action:
-          - lambda:InvokeFunction
-          - states:StartExecution
-        Resource:
-          - "*"
+        - Effect: Allow
+          Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+            - ec2:DetachNetworkInterface
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+            - states:StartExecution
+          Resource:
+            - "*"
 
 functions:
   - ${file(functions/migrations/function.yml)}
