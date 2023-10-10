@@ -53,7 +53,9 @@ npm run dev-with-debug
 
 ### Run workflow locally
 
-- npm run start-workflow --workflow=NAME_OF_THE_WORKFLOW
+```
+npm run start-workflow --workflow=NAME_OF_THE_WORKFLOW
+```
 
 ### Follow workflow logs
 

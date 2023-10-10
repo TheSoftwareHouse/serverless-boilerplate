@@ -2,7 +2,11 @@ import { getReasonPhrase } from "http-status-codes";
 import { AppError } from "./app.error";
 
 export class HttpError extends AppError {
-  public constructor(message: string, public status: number, parent?: Error | null) {
+  public constructor(
+    message: string,
+    public status: number,
+    parent?: Error | null,
+  ) {
     super(message);
 
     const description = parent ? `${parent.constructor.name}: ${parent.message}` : message;
