@@ -75,7 +75,7 @@
     "plop": "^4.0.0",
     "prettier": "^3.0.3",
     "serverless": "^3.35.2",
-    "serverless-offline": "^13.2.0",
+    "serverless-offline": "^13.3.3",
     "serverless-plugin-typescript": "^2.1.5",
     "serverless-step-functions": "^3.16.0",
     "serverless-step-functions-local": "^0.5.0",
