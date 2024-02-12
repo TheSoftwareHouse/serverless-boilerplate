@@ -12,7 +12,7 @@ module.exports = {
   plugins: [new CopyPlugin({ patterns: [{ from: ".env.dist" }] })],
   entry: slsw.lib.entries,
   mode: isLocal ? "development" : "production",
-  target: "node18",
+  target: "node20",
   externals: ["pg-native"],
   node: {
     __dirname: true,
