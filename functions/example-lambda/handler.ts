@@ -29,7 +29,9 @@ const lambdaHandler = async (event: ExampleLambdaPayload) => {
 
   await connectToDb;
 
-  const { page, limit, sort, filter } = event.queryStringParameters;
+  const { page: pageString, limit: limitString, sort, filter } = event.queryStringParameters;
+  const page = Number(pageString);
+  const limit = Number(limitString);
   const findOptions = {} as any;
 
   if (limit && page) {

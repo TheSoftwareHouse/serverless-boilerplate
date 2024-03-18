@@ -11,8 +11,8 @@ export interface PaginationResult {
   data: any;
 }
 
-export function calculateSkipFindOption(page: string, limit: string) {
-  return (Number(page) - 1) * Number(limit);
+export function calculateSkipFindOption(page: number, limit: number) {
+  return (page - 1) * limit;
 }
 
 export function isFilterAvailable(filter: any, repository: Repository<any>): boolean {
@@ -24,18 +24,14 @@ export function isFilterAvailable(filter: any, repository: Repository<any>): boo
   throw new AppError("Invalid query string");
 }
 
-export function makePaginationResult(data: any, total: number, limit?: string, page?: string): PaginationResult {
+export function makePaginationResult(data: any, total: number, limit?: number, page?: number): PaginationResult {
   return {
     meta: {
-      page: Number(page) || 1,
-      limit: Number(limit),
+      page: page || 1,
+      limit,
       total,
-      totalPages: limit ? Math.ceil(total / Math.max(Number(limit), 1)) : null,
+      totalPages: limit ? Math.ceil(total / Math.max(limit, 1)) : null,
     },
     data,
   };
-}
-
-export function normalizePage(page: number) {
-  return Math.max(page - 1, 0);
 }
