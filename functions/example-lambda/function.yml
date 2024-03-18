@@ -5,5 +5,5 @@ example-lambda:
     POSTGRES_URL: ${env:POSTGRES_URL}
   events:
     - http:
-        path: /
+        path: /users
         method: GET

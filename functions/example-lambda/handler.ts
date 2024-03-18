@@ -6,7 +6,6 @@ import { awsLambdaResponse } from "../../shared/aws";
 import { winstonLogger } from "../../shared/logger";
 import { dataSource } from "../../shared/config/db";
 import { ExampleModel } from "../../shared/models/example.model";
-import { randomUUID } from "crypto";
 import { StatusCodes } from "http-status-codes";
 import { createConfig } from "./config";
 import { ExampleLambdaPayload, exampleLambdaSchema } from "./event.schema";
@@ -15,31 +14,42 @@ import { queryParser } from "../../shared/middleware/query-parser";
 import { zodValidator } from "../../shared/middleware/zod-validator";
 import { httpCorsConfigured } from "../../shared/middleware/http-cors-configured";
 import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-handler-configured";
+import {
+  calculateSkipFindOption,
+  isFilterAvailable,
+  makePaginationResult,
+} from "../../shared/pagination-utils/pagination-utils";
 
 const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
+const userRepository = dataSource.getRepository(ExampleModel);
 
 const lambdaHandler = async (event: ExampleLambdaPayload) => {
   winstonLogger.info(`Hello from ${config.appName}. Example param is: ${event.queryStringParameters.exampleParam}`);
 
   await connectToDb;
 
-  await dataSource.getRepository(ExampleModel).save(
-    ExampleModel.create({
-      id: randomUUID(),
-      email: "some@tmp.pl",
-      firstName: "Test",
-      lastName: "User",
-    }),
-  );
+  const { page: pageString, limit: limitString, sort, filter } = event.queryStringParameters;
+  const page = Number(pageString);
+  const limit = Number(limitString);
+  const findOptions = {} as any;
 
-  return awsLambdaResponse(StatusCodes.OK, {
-    success: true,
-    data: {
-      users: await dataSource.getRepository(ExampleModel).find(),
-      exampleParam: event.queryStringParameters.exampleParam,
-    },
-  });
+  if (limit && page) {
+    findOptions.take = limit;
+    findOptions.skip = calculateSkipFindOption(page, limit);
+  }
+
+  if (sort && isFilterAvailable(sort, userRepository)) {
+    findOptions.order = sort;
+  }
+
+  if (filter && isFilterAvailable(filter, userRepository)) {
+    findOptions.where = filter;
+  }
+
+  const [data, total] = await userRepository.findAndCount(findOptions);
+
+  return awsLambdaResponse(StatusCodes.OK, makePaginationResult(data, total, limit, page));
 };
 
 export const handle = middy()
