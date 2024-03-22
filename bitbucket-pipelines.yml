@@ -1,5 +1,7 @@
 image: node:20-alpine
 definitions:
+  caches:
+    sonar: /opt/sonar-scanner/.sonar
   steps:
     - step: &compile
         name: Compile
@@ -8,7 +10,9 @@ definitions:
         script:
           - npm ci
           - npm run lint
-          # - npm run test
+          - npm run test-coverage
+        artifacts:
+          - coverage/**
     - step: &deploy
         name: Deploy
         trigger: manual
@@ -18,10 +22,18 @@ definitions:
           - npm install
           - ./node_modules/.bin/serverless config credentials --provider aws --key ${AWS_LAMBDA_KEY} --secret ${AWS_LAMBDA_SECRET}
           - ./node_modules/.bin/serverless deploy --stage ${STAGE}
+    - step: &sonarqube-analysis
+        name: SonarQube analysis
+        image: sonarsource/sonar-scanner-cli:latest
+        caches:
+          - sonar
+        script:
+          - sonar-scanner
 
 pipelines:
   default:
     - step: *compile
+    - step: *sonarqube-analysis
   custom:
     deploy-to-dev:
       - step: *compile
