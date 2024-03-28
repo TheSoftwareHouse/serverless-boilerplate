@@ -7,3 +7,5 @@ node_modules
 .step-functions-local
 .bak
 .idea
+.nyc_output
+/coverage
