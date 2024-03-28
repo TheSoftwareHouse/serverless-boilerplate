@@ -11,6 +11,7 @@ export const exampleLambdaSchema = z.object({
     limit: z.string().optional(),
     sort: z.record(z.string()).optional(),
     filter: z.record(z.string()).optional(),
+    search: z.string().optional(),
   }),
 });
 

@@ -37,7 +37,9 @@ export const queryParser = (): middy.MiddlewareObj<APIGatewayProxyEvent, APIGate
         const nestedKey = nestedKeyMatch ? nestedKeyMatch[1] : undefined;
 
         if (nestedKey) {
-          value = { [nestedKey]: queryParams[key] };
+          resultQuery[queryKey]
+            ? (value = { ...(resultQuery[queryKey] as object), [nestedKey]: queryParams[key] })
+            : (value = { [nestedKey]: queryParams[key] });
         }
       }
 
