@@ -1,4 +1,5 @@
 import { FindManyOptions, FindOperator, FindOptionsOrder, FindOptionsWhere, ObjectLiteral, Repository } from "typeorm";
+import { SortOrder } from "../constants/sort-order.enum";
 
 export interface PaginationResult<T> {
   meta: {
@@ -23,7 +24,7 @@ export interface PaginationParamsDto {
   search?: string;
 }
 
-type QueryFilters = { [key: string]: "ASC" | "DESC" } | { [key: string]: string | string[] };
+type QueryFilters = { [key: string]: SortOrder } | { [key: string]: string | string[] };
 
 export function calculateSkipFindOption(page: number, limit: number): number {
   return (page - 1) * limit;
