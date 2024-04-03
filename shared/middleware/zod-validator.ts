@@ -11,8 +11,15 @@ export const zodValidator = <T extends ZodTypeAny>(schema: T): Required<Pick<Mid
     const parserResult = schema.safeParse(event);
 
     if (!parserResult.success) {
+      const validationErrors: { [key: string]: string[] } = {};
+      parserResult.error.issues.forEach((issue) => {
+        const key = issue.path.join(".");
+        const errorType = `validation.${issue.code}`;
+        validationErrors[key] = validationErrors[key] || [];
+        validationErrors[key].push(errorType);
+      });
       // @ts-ignore
-      throw new HttpError(parserResult.error.issues, StatusCodes.BAD_REQUEST);
+      throw new HttpError(StatusCodes.BAD_REQUEST, validationErrors);
     }
 
     event.body = parserResult.data?.body ?? event.body;
