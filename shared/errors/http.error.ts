@@ -1,10 +1,10 @@
-import { getReasonPhrase } from "http-status-codes";
+import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import { AppError } from "./app.error";
 
 export class HttpError extends AppError {
   public constructor(
-    message: string,
     public status: number,
+    message?: string,
     parent?: Error | null,
   ) {
     super(message);
@@ -13,12 +13,17 @@ export class HttpError extends AppError {
     // eslint-disable-next-line no-nested-ternary
     const stack = process.env.STAGE === "staging" ? (parent ? parent.stack : this.stack) : undefined;
 
-    const error = {
-      statusCode: status,
-      error: getReasonPhrase(status),
-      description,
-      stack,
-    };
+    let error = {};
+
+    if (status === StatusCodes.BAD_REQUEST) {
+      error = { errors: description, stack };
+    } else {
+      error = {
+        code: `error.${getReasonPhrase(status).toLowerCase().split(" ").join(".")}`,
+        message: description,
+        stack,
+      };
+    }
 
     this.message = JSON.stringify(error);
 
