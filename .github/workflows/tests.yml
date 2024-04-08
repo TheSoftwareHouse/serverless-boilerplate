@@ -37,5 +37,5 @@ jobs:
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       env:
-        SONAR_TOKEN: sqp_cdf796a422338de063410c70229532ccd1326375
-        SONAR_HOST_URL: https://sonarqube.aws.tshdev.io
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
