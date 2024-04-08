@@ -75,7 +75,7 @@ We support ASL for Step Functions. Make sure to install AWS Toolkit so you can r
 
 ### SonarQube configuration
 
-Before deployment make sure to create a new SonarQube project. After that set proper repository variables (`SONAR_TOKEN` and `SONAR_HOST_URL`) and properties in `sonar-project.properties` file. 
+Before deployment, please ensure that a related SonarQube project has been created. After that set proper repository variables (`SONAR_TOKEN` and `SONAR_HOST_URL`) and properties in `sonar-project.properties` file. 
 
 ##
 

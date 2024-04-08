@@ -33,7 +33,7 @@ definitions:
 pipelines:
   default:
     - step: *compile
-    - step: *sonarqube-analysis
+
   custom:
     deploy-to-dev:
       - step: *compile
@@ -43,6 +43,9 @@ pipelines:
           name: Deploy to DEV
 
   branches:
+    main:
+      - step: *compile
+      - step: *sonarqube-analysis
     master:
       - step: *compile
       - step:

@@ -17,15 +17,14 @@ import { httpErrorHandlerConfigured } from "../../shared/middleware/http-error-h
 import { createFindManyOptions, makePaginationResult } from "../../shared/pagination-utils/pagination-utils";
 import { Like } from "typeorm";
 
-const connectToDb = dataSource.initialize();
 const config = createConfig(process.env);
 const userRepository = dataSource.getRepository(ExampleModel);
 
-const lambdaHandler = async (event: ExampleLambdaPayload) => {
+export const lambdaHandler = async (event: ExampleLambdaPayload) => {
   const queryParams = event.queryStringParameters;
   winstonLogger.info(`Hello from ${config.appName}. Example param is: ${queryParams.exampleParam}`);
 
-  await connectToDb;
+  await dataSource.initialize();
 
   const findOptions = createFindManyOptions(userRepository, queryParams);
 
