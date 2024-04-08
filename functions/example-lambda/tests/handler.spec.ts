@@ -64,9 +64,9 @@ describe("test endpoint", () => {
         queryStringParameters: { ...params,  ...filters }
       });
 
-      const parshedResponse = JSON.parse(response.body);
+      const parsedResponse = JSON.parse(response.body);
       assert.equal(response.statusCode, StatusCodes.OK);
-      assert.deepEqual(parshedResponse, { meta: { pagination, ...filters }, data });
+      assert.deepEqual(parsedResponse, { meta: { pagination, ...filters }, data });
     });
 
     it("shouldn't return filters if they are not available", async () => {
@@ -82,9 +82,9 @@ describe("test endpoint", () => {
         }
       });
 
-      const parshedResponse = JSON.parse(response.body);
+      const parsedResponse = JSON.parse(response.body);
       assert.equal(response.statusCode, StatusCodes.OK);
-      assert.deepEqual(parshedResponse, { meta: { pagination, sort: { id: "ASC" }, filter: { lastName: "Doe" }}, data });
+      assert.deepEqual(parsedResponse, { meta: { pagination, sort: { id: "ASC" }, filter: { lastName: "Doe" }}, data });
     });
   });
 });
