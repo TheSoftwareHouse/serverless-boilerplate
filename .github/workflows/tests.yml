@@ -1,6 +1,9 @@
 name: Serverless Boilerplate
 
-on: [push]
+on:
+  push:
+    branches-ignore: 
+      - main
 
 jobs:
   tests:
@@ -15,27 +18,4 @@ jobs:
       - run: cp .env.dist .env
       - run: npm ci
       - run: npm run lint
-      - run: npm run test-coverage
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: coverage/
-
-  sonarqube-analysis:
-    runs-on: ubuntu-latest
-    needs: tests
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: coverage
-        path: coverage/
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - run: npm run test
