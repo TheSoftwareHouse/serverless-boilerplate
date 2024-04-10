@@ -1,4 +1,4 @@
-name: Serverless Boilerplate
+name: Serverless Boilerplate Default Workflow
 
 on:
   push:
