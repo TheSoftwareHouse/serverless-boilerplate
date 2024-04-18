@@ -2,12 +2,12 @@ import { z } from "zod";
 import { pipeline } from "ts-pipe-compose";
 
 const loadEnvs = (env: any) => ({
-  appName: env.APP_NAME,
+  postUserRegistrationToken: env.POST_USER_REGISTRATION_TOKEN,
 });
 
 const validateConfig = (config: any) => {
   const schema = z.object({
-    appName: z.string().min(1),
+    postUserRegistrationToken: z.string().min(1),
   });
 
   try {
