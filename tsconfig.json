@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "build", "plop-templates"],
+  "exclude": ["node_modules", "build", "plop-templates", "toolkit"],
   "ts-node": {
     "files": true
   }

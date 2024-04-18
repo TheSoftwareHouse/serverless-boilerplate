@@ -1,0 +1,9 @@
+post-user-registration-lambda:
+  handler: functions/post-user-registration-lambda/handler.handle
+  vpc: ${self:custom.vpc}
+  environment:
+    POSTGRES_URL: ${env:POSTGRES_URL}
+  events:
+    - http:
+        path: /post-user-registration
+        method: POST
