@@ -3,7 +3,6 @@ import { DataSource, Repository } from "typeorm";
 import { lambdaHandler } from "../handler";
 import assert from "assert";
 import { StatusCodes } from "http-status-codes";
-import { afterEach, beforeEach, describe, it } from "node:test";
 
 describe("test endpoint", () => {
   let sandbox: sinon.SinonSandbox;

@@ -6,15 +6,14 @@ import { StatusCodes } from "http-status-codes";
 import { BearerToken, TokenPayloadInterface } from "../tokens/bearer.token";
 import { createSharedConfig } from "../config/config";
 
-const config = createSharedConfig(process.env);
-
 export const validateAccessToken = (): middy.MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult> => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async ({ event }): Promise<void> => {
+    const config = createSharedConfig(process.env);
     const { authorization } = event.headers;
 
     if (!authorization) {
       winstonLogger.info("Authorization Bearer token not found in headers");
-      throw new HttpError(StatusCodes.UNAUTHORIZED, "Authorization Bearer token not found in headers.");
+      throw new HttpError(StatusCodes.UNAUTHORIZED, "Authorization Bearer token not found in headers");
     }
 
     const isTokenValid = BearerToken.isValid(authorization);
@@ -36,6 +35,9 @@ export const validateAccessToken = (): middy.MiddlewareObj<APIGatewayProxyEvent,
       if (await BearerToken.verifyJwtToken(authorization, config.auth0JwksUri)) {
         // eslint-disable-next-line no-param-reassign
         event.queryStringParameters = { email };
+      } else {
+        winstonLogger.info("Access denied");
+        throw new HttpError(StatusCodes.UNAUTHORIZED, "Access denied");
       }
     } catch (error) {
       winstonLogger.info("Access denied");

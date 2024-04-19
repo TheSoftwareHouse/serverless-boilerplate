@@ -1,6 +1,5 @@
 import { postUserRegistrationTokenHandler } from "./post-user-registration-token-handler";
 import { HttpError } from "../errors/http.error";
-import { describe, it } from "node:test";
 import { expect } from "chai";
 import { StatusCodes } from "http-status-codes";
 
