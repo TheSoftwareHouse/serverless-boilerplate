@@ -3,16 +3,12 @@ import middy from "@middy/core";
 import { winstonLogger } from "../logger";
 import { HttpError } from "../errors/http.error";
 import { StatusCodes } from "http-status-codes";
-import { BearerToken, TokenPayload } from "../tokens/bearer.token";
+import { BearerToken, TokenPayloadInterface } from "../tokens/bearer.token";
 import { createSharedConfig } from "../config/config";
 
 const config = createSharedConfig(process.env);
 
-
-export const validateAccessToken = (): middy.MiddlewareObj<
-  APIGatewayProxyEvent,
-  APIGatewayProxyResult
-> => {
+export const validateAccessToken = (): middy.MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult> => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async ({ event }): Promise<void> => {
     const { authorization } = event.headers;
 
@@ -20,7 +16,7 @@ export const validateAccessToken = (): middy.MiddlewareObj<
       winstonLogger.info("Authorization Bearer token not found in headers");
       throw new HttpError(StatusCodes.UNAUTHORIZED, "Authorization Bearer token not found in headers.");
     }
-    
+
     const isTokenValid = BearerToken.isValid(authorization);
 
     if (!isTokenValid) {
@@ -28,16 +24,17 @@ export const validateAccessToken = (): middy.MiddlewareObj<
       throw new HttpError(StatusCodes.UNAUTHORIZED, "Authorization Bearer token is not valid");
     }
 
+    const tokenPayload: TokenPayloadInterface = BearerToken.decodeToken(authorization);
+    const email = tokenPayload?.me?.email;
+
+    if (!email) {
+      winstonLogger.info("Invalid Bearer token payload");
+      throw new HttpError(StatusCodes.BAD_REQUEST, "Invalid Bearer token payload");
+    }
+
     try {
       if (await BearerToken.verifyJwtToken(authorization, config.auth0JwksUri)) {
-        const tokenPayload: TokenPayload = BearerToken.decodeToken(authorization);
-        const { email } = tokenPayload;
-  
-        if (!email) {
-          winstonLogger.info("Invalid Bearer token payload");
-          throw new HttpError(StatusCodes.BAD_REQUEST, "Invalid Bearer token payload");
-        }
-  
+        // eslint-disable-next-line no-param-reassign
         event.queryStringParameters = { email };
       }
     } catch (error) {

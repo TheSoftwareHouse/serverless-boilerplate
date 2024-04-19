@@ -1,0 +1,9 @@
+me:
+  handler: functions/me/handler.handle
+  vpc: ${self:custom.vpc}
+  environment:
+    POSTGRES_URL: ${env:POSTGRES_URL}
+  events:
+    - http:
+        path: /me
+        method: GET

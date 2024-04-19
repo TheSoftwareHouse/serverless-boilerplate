@@ -62,6 +62,7 @@ functions:
   - ${file(functions/example-lambda/function.yml)}
   - ${file(workflows/example-workflow/example-step/function.yml)}
   - ${file(functions/post-user-registration-lambda/function.yml)}
+  - ${file(functions/me/function.yml)}
   # PLOP_ADD_LAMBDA
 
 stepFunctions:

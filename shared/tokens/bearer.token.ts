@@ -1,13 +1,11 @@
-import jwt, { decode } from "jsonwebtoken";
+import jwt, { JwtPayload, decode } from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 
-export interface TokenPayload {
-  email?: string;
-  iat: number;
-  exp: number;
+export interface TokenPayloadInterface extends JwtPayload {
+  me?: {
+    email?: string;
+  };
 }
-
-
 
 export class BearerToken {
   static isValid(token?: string): boolean {
@@ -22,9 +20,9 @@ export class BearerToken {
     return !(!match || match.length !== 3);
   }
 
-  static decodeToken(bearerToken: string): TokenPayload {
+  static decodeToken(bearerToken: string): TokenPayloadInterface {
     const token: string = bearerToken.substring(7);
-    return decode(token) as TokenPayload;
+    return decode(token) as TokenPayloadInterface;
   }
 
   static async verifyJwtToken(token: string, jwksUri: string): Promise<boolean> {
@@ -36,7 +34,7 @@ export class BearerToken {
 
     const keys = await client.getSigningKeys();
 
-    const kid = keys[0].kid;
+    const { kid } = keys[0];
 
     const key = await client.getSigningKey(kid);
 
@@ -48,5 +46,4 @@ export class BearerToken {
 
     return !!decoded;
   }
-
 }
