@@ -19,7 +19,7 @@ import { validateAccessToken } from "../../shared/middleware/auth0-authorization
 const connectToDb = dataSource.initialize();
 const userRepository = dataSource.getRepository(ExampleModel);
 
-const lambdaHandler = async (event: MeLambdaPayload) => {
+export const lambdaHandler = async (event: MeLambdaPayload) => {
   await connectToDb;
 
   const { email } = event.queryStringParameters;
